@@ -42,7 +42,7 @@ class AuthMiddleware{
                 res.status(404).json({message:"No user with that token"})
                 return
             }
-           req.user=userData  
+           req.user=userData  //saba tira janxa yo abo
            next()   
            } catch (error) {
             res.status(500).json({message : "Something went wrong"})

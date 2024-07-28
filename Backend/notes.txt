@@ -1,33 +1,36 @@
-npm i --save-dev typescript   //install typescript for development
-npm install @types/express --save-dev  
-npx tsc --i   //for typescript json file
+npm init -y  //package.json
+npm i express
+npm i  nodemon
+
+n
+pm i --save-dev typescript   //install typescript for development
+npm install @types/express --save-dev    
+npm install @types/node --save-dev 
+npm install sequelize-typescript
+npm install @types/jsonwebtoken --save-dev
+npm install @types/multer --save-dev
+npm install @types/bcrypt --save-dev
+npm install rimraf --save-dev
+
+
+//for typescript json
+npx tsc --init   //for typescript json file
 npm tsc   //convert tsc file to js
-node build/server.js   //run
- "scripts": {
+node build/server.js   //run the build folder
+"scripts": {
     "start":"npx tsc && node build/server.js"
 },
 
 npm i tsc-node //to execute the ts file without convert to the build
 create the nodemon.json by ourself and write some 
-
-npm i rimraf
 npm i rimraf --save-dev
 
-//second way to connect the sequelize typescript
-npm i sequelize-typescript
 //on creating table
 npm i reflect-metadata
 
 // enable this in tsConfig.json for @Columnname
 "experimentalDecorators": true,                   
 "emitDecoratorMetadata": true,   
-
-// for password hassing
-npm i @types/bcrypt
-npm i @types/bcrypt --save-dev 
-
-//image
-npm i @types/multer --save-dev
 
 //join in sequelize
 const product =await Product.findAll(

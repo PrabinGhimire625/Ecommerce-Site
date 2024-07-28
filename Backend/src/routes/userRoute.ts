@@ -7,3 +7,5 @@ router.route("/register").post(errorHandler(AuthController.registerUser))
 router.route("/login").post(errorHandler(AuthController.loginUser))
 
 export default router
+
+
