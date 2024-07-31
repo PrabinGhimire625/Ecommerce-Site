@@ -10,7 +10,7 @@ npm install sequelize-typescript
 npm install @types/jsonwebtoken --save-dev
 npm install @types/multer --save-dev
 npm install @types/bcrypt --save-dev
-npm install rimraf --save-dev
+npm install rimraf --save-dev  //delete files and directories
 
 
 //for typescript json
@@ -22,8 +22,13 @@ node build/server.js   //run the build folder
 },
 
 npm i tsc-node //to execute the ts file without convert to the build
-create the nodemon.json by ourself and write some 
-npm i rimraf --save-dev
+create the nodemon.json by ourself and write inside it
+{
+    "watch": ["src"],
+    "ext":".ts,.js",
+    "ignore":[],
+    "exec": "npx ts-node ./src/server.ts"
+}
 
 //on creating table
 npm i reflect-metadata
@@ -37,5 +42,15 @@ const product =await Product.findAll(
       {include:[
         {model:User, attributes:['email','username']},
         {model:Category, attributes:['categoryName',]},
+      ]
+      });
 
-      ]});
+
+//row in the table for ecommerce site
+users:id,username,email,password,role
+products:id,productName,productDescription,productTotalStockQty,productImageUrl,userId(fk), categoryId(fk)
+categories:id,categoryName
+carts:id,quantity,userId(fk),productId(fk)
+orders:id, phoneNumber,shippingAddress, totalAmount,orderStatus,paymentId(fk),userId(fk)
+orderDetails:id,quantity,orderId(fk),prodductId(fk)
+payments:id,paymentMethod,paymentStatus,pidx

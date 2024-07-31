@@ -5,10 +5,9 @@ import Product from "../database/models/product";
 import Category from "../database/models/category";
 import { escape } from "validator";
 
-
-
-
 class CartController{
+
+    //add the product in the cart
     async addToCart(req:AuthRequest,res:Response):Promise<void>{
         const userId=req.user?.id  //authMiddleware bata auxa to find login user
         //console.log("User ID:", userId); // Log user ID for debugging

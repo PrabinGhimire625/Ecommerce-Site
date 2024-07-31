@@ -19,11 +19,13 @@ import userRoute from "./routes/userRoute"
 import productRoutes from "./routes/productRoutes"
 import categoryRoutes from "./routes/categoryRoutes"
 import cartRoutes from "./routes/cartRoutes"
+import orderRoutes from "./routes/orderRoutes"
 
 app.use("/",userRoute)
 app.use("/admin/product",productRoutes)
 app.use("/admin/category",categoryRoutes)
 app.use("/customer/cart",cartRoutes)
+app.use("/customer/order",orderRoutes)
 
 app.listen(port,()=>{
     console.log("Server has started at port",port)

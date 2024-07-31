@@ -2,6 +2,7 @@ import User from "./database/models/userModel"
 import bcrypt from "bcrypt"
 //promise return
 const adminSeeder=async():Promise<void>=>{
+    //use destructuring in expect only a single record [data]
     const [data]=await User.findAll({where:{email:"prabinghimire625@gmail.com"}})
     //if not admin then create the admin
     if(!data){

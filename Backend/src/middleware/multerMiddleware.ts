@@ -8,7 +8,7 @@ const storage = multer.diskStorage({
             cb(new Error("This filetype is not accepted"))
             return
         }
-        cb(null,'./src/uploads')
+        cb(null,'./src/uploads')   //If the file type is allowed, this calls the callback with null (no error) and sets the destination directory to '/src/uploads'. This is where the files will be saved on the server.
     },
 
     filename : function(req:Request,file:Express.Multer.File,cb:any){

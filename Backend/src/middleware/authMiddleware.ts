@@ -13,7 +13,7 @@ export interface AuthRequest extends Request{
     }
 }
 
-//role type
+//role type 
 export enum Role{
     Admin='admin',
     Customer="customer"
@@ -29,7 +29,6 @@ class AuthMiddleware{
         res.status(403).json({message:"Token not provided"})
         return
     }
-    console.log(token)
      //payload ma j data xa tyo nai auxa decoded mas
     jwt.verify(token,process.env.SECRET_KEY as string,async(err,decoded:any)=>{
         if(err){
@@ -51,11 +50,10 @@ class AuthMiddleware{
     })
     }
 
-    //roles
-    restrictTo(...roles:Role[]){
+    //... is used in function to represent an indefinite number of arguments as an array. 
+    restrictTo(...roles:Role []){
         return (req:AuthRequest, res:Response, next:NextFunction)=>{
             let userRole=req.user?.role as Role
-            console.log(userRole)
             if(!roles.includes(userRole)){
                 res.status(403).json({message:"You do not have the permission"})
                 return

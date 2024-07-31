@@ -10,5 +10,4 @@ router.route("/").post(authMiddleware.isAuthenticated,authMiddleware.restrictTo(
 router.route("/:id").patch(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),categoryController.updatecategory)
 router.route("/:id").delete(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),categoryController.deleteCategory)
 
-
 export default router
