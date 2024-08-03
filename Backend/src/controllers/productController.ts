@@ -65,32 +65,35 @@ class productController {
   }
 
     //update the product
-  async updateProduct(req: Request, res: Response): Promise<void> {
-    try {
-        const id = req.params.id;
-        const {  productName, productDescription, productPrice, productTotalStockQty} = req.body;
-        const oldData = await Product.findByPk(id);
-        if (!oldData) {
-            res.status(404).json({ message: "Product not found" });
-            return 
-        }
-        let fileName = oldData.productImageUrl;
-        if (req.file) {
-            const oldImagePath = oldData.productImageUrl;
-            const localHostUrlLength = "http://localhost:3000/".length;
-            const newOldImagePath = oldImagePath.slice(localHostUrlLength);
-            // Delete the old image
-            fs.unlink(`src/uploads/${newOldImagePath}`, (err) => {
-                if (err) {
-                    console.error("Error deleting old image:", err);
-                } else {
-                  console.log("Old image deleted successfully");
-                }
+    async updateProduct(req: Request, res: Response): Promise<void> {
+      try {
+          const id = req.params.id;
+          const { productName, productPrice, productDescription,productTotalStockQty } = req.body;
+
+          const oldData = await Product.findByPk(id);
+          if (!oldData) {
+              res.status(404).json({ message: "Product not found" });
+              return 
+          }
+          let fileName = oldData.productImageUrl;
+          if (req.file) {
+              const oldImagePath = oldData.productImageUrl;
+              const localHostUrlLength = "http://localhost:3000/".length;
+              const newOldImagePath = oldImagePath.slice(localHostUrlLength);
+              // Delete the old image
+              console.log("Path to delete:", `src/uploads/${newOldImagePath}`);
+
+              fs.unlink(`src/uploads/${newOldImagePath}`, (err) => {
+                  if (err) {
+                      console.error("Error deleting old image:", err);
+                  } else {
+                      console.log("Old image deleted successfully");
+                  }
               });
-            fileName = "http://localhost:3000/" + req.file.filename;  // Set new image URL
+              fileName = "http://localhost:3000/" + req.file.filename;  // Set new image URL
           }
           // Update the product in the database
-          const [products] = await Product.update({ productName, productDescription, productPrice, productTotalStockQty,productImageUrl: fileName},{ where: { id: id } });
+          const [products] = await Product.update({productName,productPrice,productDescription,productTotalStockQty, productImageUrl: fileName},{ where: { id: id } });
           if (products > 0) {
               const updatedProduct = await Product.findByPk(id);
               res.status(200).json({ message: "Successfully updated the product", data: updatedProduct });

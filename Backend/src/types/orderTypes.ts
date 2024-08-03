@@ -26,6 +26,7 @@ export enum PaymentStatus{
     Unpaid = 'unpaid'
 }
 
+//same to same
 export interface KhaltiResponse{
     pidx:string,
     payment_url:string,

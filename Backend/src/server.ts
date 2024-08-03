@@ -9,7 +9,7 @@ const port=process.env.PORT
 app.use(express.json())
 app.use(express.urlencoded())
 
-//seeder create the admin frist when the program is start  (Comment this part before showing the relation between the table)
+//seeder create the admin frist when the program is start
 import adminSeeder from "./adminSeeder"
 adminSeeder()                      //call the adminSeeder
 categoryController.seedCategory()  //call seedCategory
@@ -25,7 +25,7 @@ app.use("/",userRoute)
 app.use("/admin/product",productRoutes)
 app.use("/admin/category",categoryRoutes)
 app.use("/customer/cart",cartRoutes)
-app.use("/customer/order",orderRoutes)
+app.use("/order",orderRoutes)
 
 app.listen(port,()=>{
     console.log("Server has started at port",port)

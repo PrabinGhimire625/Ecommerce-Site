@@ -52,5 +52,23 @@ products:id,productName,productDescription,productTotalStockQty,productImageUrl,
 categories:id,categoryName
 carts:id,quantity,userId(fk),productId(fk)
 orders:id, phoneNumber,shippingAddress, totalAmount,orderStatus,paymentId(fk),userId(fk)
-orderDetails:id,quantity,orderId(fk),prodductId(fk)
 payments:id,paymentMethod,paymentStatus,pidx
+orderDetails:id,quantity,orderId(fk),productId(fk)
+
+//Order 
+customer side
+fetchMyOrder=userId
+fetchOrderDetails=orderId
+cancleOrder=userId, orderId
+
+//admin side
+changeOrderStatus=orderId    
+changePaymentStatus=orderId
+deleteOrder=orderId, extendedOrder.paymentId
+fetchOrder=paymentId
+
+//cart 
+addToCart=userId,productId
+getCartItem=userId, productId
+deleteCart=userId,productId
+updateCart=userId,productId

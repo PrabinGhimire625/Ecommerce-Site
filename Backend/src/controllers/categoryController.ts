@@ -14,7 +14,7 @@ class categoryController{
     async seedCategory():Promise<void>{
         const datas=await Category.findAll()
         //if category xoin vana create garxa else part
-        if(datas.length==0){
+        if(datas.length===0){
             const data=await Category.bulkCreate(this.categoryData) //bulkCreate insert multiple records into a database table in a single operation. 
             console.log("Category sedded successfully")
         }else{

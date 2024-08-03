@@ -41,8 +41,7 @@ class CartController{
             res.status(200).json({message:"Item is successfully added into the cart",data:cartItem})
         }
     }
-
-    //delete the cart item
+    
     async deleteCart(req:AuthRequest,res:Response):Promise<void>{
         const userId=req.user?.id
         const {productId}=req.params
@@ -60,7 +59,7 @@ class CartController{
     async updateCartItem(req:AuthRequest,res:Response):Promise<void>{
         const {productId} = req.params 
         const userId = req.user?.id 
-        const {quantity} = req.body 
+        const {quantity} = req.body  
         if(!quantity){
             res.status(400).json({message : "Please provide quantity"})
             return
