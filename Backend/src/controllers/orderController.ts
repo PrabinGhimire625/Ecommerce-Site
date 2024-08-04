@@ -21,7 +21,7 @@ class orderController{
     
     //Order table
     const orderData=await Order.create({phoneNumber,shippingAddress,totalAmount,userId, paymentId:paymentData.id})
-    let responseOrderData ; 
+    let responseOrderData; 
     for(var i=0; i<items.length; i++){
         //orderDetails table
         responseOrderData= await OrderDetail.create({
