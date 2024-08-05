@@ -5,9 +5,13 @@ import categoryController from "./controllers/categoryController"
 import dotenv from "dotenv"
 dotenv.config()
 const port=process.env.PORT
-
+import cors from "cors"
+app.use(cors({
+    origin:'*'
+}))
 app.use(express.json())
 app.use(express.urlencoded())
+
 
 //seeder create the admin frist when the program is start
 import adminSeeder from "./adminSeeder"
