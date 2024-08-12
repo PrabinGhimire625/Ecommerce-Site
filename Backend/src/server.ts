@@ -9,8 +9,10 @@ import cors from "cors"
 app.use(cors({
     origin:'*'
 }))
+
 app.use(express.json())
 app.use(express.urlencoded())
+app.use(express.static("./src/uploads"))
 
 
 //seeder create the admin frist when the program is start

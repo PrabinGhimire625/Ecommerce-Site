@@ -1,7 +1,33 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../../../pages/auth/store/hooks' 
+import { Link, useNavigate } from 'react-router-dom'
+import { fetchCartItem } from '../../../pages/auth/store/cartSlice'
 
 const Navbar = () => {
-  return (
+  const navigate=useNavigate()
+  const dispatch=useAppDispatch()
+  //authSlice bata user token launa useSelector use garnu parxa
+  const {user}=useAppSelector((state)=>state.auth)  //slice bata data tanako
+  const {items}=useAppSelector((state)=>state.carts)
+  console.log(items)
+  const [isLoggedIn, setIsLoggedIn]=useState<boolean>(false)
+
+  //useEffect tigger when the changes in the user token
+  useEffect(()=>{
+    const token= localStorage.getItem('token')
+    setIsLoggedIn(!!token || !!user.token)
+    dispatch(fetchCartItem())
+
+  },[user.token])
+
+    //handle logout
+    const handleLogout=()=>{
+      localStorage.removeItem('token')
+      setIsLoggedIn(false)
+      navigate("/login")
+    }
+
+    return (
    <>
          <header
           id="page-header"
@@ -10,10 +36,7 @@ const Navbar = () => {
           {/* Main Header Content */}
           <div className="container mx-auto flex flex-col gap-4 px-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-0 lg:px-8 xl:max-w-7xl">
             <div>
-              <a
-                href="#"
-                className="group inline-flex items-center gap-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300"
-              >
+              <a href="#" className="group inline-flex items-center gap-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
                 <svg
                   className="hi-mini hi-cube-transparent inline-block size-5 text-blue-600 transition group-hover:scale-110 dark:text-blue-400"
                   xmlns="http://www.w3.org/2000/svg"
@@ -31,27 +54,30 @@ const Navbar = () => {
               </a>
             </div>
             <nav className="space-x-3 md:space-x-6">
-              <a
-                href="#"
-                className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
-              >
-                <span>Features</span>
-              </a>
-              <a
-                href="#"
-                className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
-              >
-                <span>Pricing</span>
-              </a>
-              <a
-                href="#"
-                className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400"
-              >
-                <span>Support</span>
-              </a>
+              
+              {/* if user is logged in then the logout option is seen if not then register and login */}
+              {!isLoggedIn ? (
+                <>
+                  <Link  to="/register" className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
+                    <span>Register</span>
+                  </Link>             
+                    <Link to='/login' className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
+                      <span>Login</span>
+                  </Link>
+                </>
+              ):(
+                <>
+                  <Link  to="/cart" className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
+                    <span>Cart<sup>{items.length}</sup></span>
+                  </Link>
+                <Link to='#' onClick={handleLogout} className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
+                  <span>Logout</span>
+                </Link>
+                </>
+              )
+              }
             </nav>
           </div>
-          {/* END Main Header Content */}
         </header>
    </>
   )

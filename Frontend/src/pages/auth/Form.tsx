@@ -10,7 +10,7 @@ const Form:React.FC<Props> = ({type,onSubmit}) => {
     password:""
   })
  
-  //input field ma hanko data set garxa setUserData ma
+  //input field ma halako data set garxa setUserData ma
   const handleChange=(e:ChangeEvent<HTMLInputElement>)=>{
     const {name,value}=e.target
     setUserData({
@@ -22,7 +22,6 @@ const Form:React.FC<Props> = ({type,onSubmit}) => {
   const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
     e.preventDefault()
     onSubmit(userData)
-
   }
 
   return (
@@ -141,7 +140,6 @@ const Form:React.FC<Props> = ({type,onSubmit}) => {
                   </div>
                   )
                 }
-                
               </div>
               {/* END Sign In Form */}
             </section>

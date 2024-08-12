@@ -1,2 +1,12 @@
 //intregate redux toolkit
 1. npm install @reduxjs/toolkit react-redux
+
+
+//flow 
+1. data came fram API
+2. ani API le  initialState bhitra ko product state ma halo
+3. ani typ product bata data tanara const {status,product}=useAppSelector((state)=>state.products) //"products" store ko reducer bhitra bata ayo  //check status
+  
+
+
+//

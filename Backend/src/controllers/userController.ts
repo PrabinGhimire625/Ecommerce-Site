@@ -11,7 +11,7 @@ class AuthController{
         await User.create({username,email,password:hashedPassword,role:role})
         res.status(200).json({message:"User is succcessfully registered!"})
     }
-
+    
     //login user
     public static async loginUser(req:Request,res:Response):Promise<void>{
         const {email,password}=req.body;  //frontend bata
@@ -28,7 +28,7 @@ class AuthController{
         //generate token after matched the password
         const token=jwt.sign({id:user.id},process.env.SECRET_KEY as string,{expiresIn:"20d"})   //go to the authMiddleware for verify the token
         res.status(200).json({message:"Successfully login",data:token})       
-    }  
+    }
 
     //login method2 using the findOne() instead of findAll()
     // async loginUser(req: Request, res: Response): Promise<void> {

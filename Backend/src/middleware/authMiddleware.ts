@@ -10,6 +10,16 @@ export interface AuthRequest extends Request{
         email:string,
         password:string
         role:string
+    }  
+}
+
+export interface AuthRequest extends Request{
+    user?:{
+        id:string
+        username:string,
+        email:string,
+        password:string,
+        role:string
     }
 }
 

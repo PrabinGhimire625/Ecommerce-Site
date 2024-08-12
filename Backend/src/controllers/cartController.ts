@@ -3,10 +3,10 @@ import { AuthRequest } from "../middleware/authMiddleware";
 import Cart from "../database/models/cart";
 import Product from "../database/models/product";
 import Category from "../database/models/category";
-import { escape } from "validator";
+import { model } from "mongoose";
+import User from "../database/models/userModel";
 
 class CartController{
-
     //add the product in the cart
     async addToCart(req:AuthRequest,res:Response):Promise<void>{
         const userId=req.user?.id  //authMiddleware bata auxa to find login user
@@ -19,10 +19,16 @@ class CartController{
         let cartItem=await Cart.findOne({where:{productId,userId}})
         if (cartItem){
             cartItem.quantity+=quantity
-            cartItem.save()  //compulsary
+            await cartItem.save()  //compulsary
         }else{
             cartItem=await Cart.create({quantity,userId,productId})
-            res.status(200).json({message:"Product added to cart", data:cartItem})
+            const data=await Cart.findAll({
+                where:{
+                    userId
+                }
+            }
+            )
+            res.status(200).json({message:"Product added to cart", data})
         }
     }
 
@@ -41,6 +47,7 @@ class CartController{
             res.status(200).json({message:"Item is successfully added into the cart",data:cartItem})
         }
     }
+
     
     async deleteCart(req:AuthRequest,res:Response):Promise<void>{
         const userId=req.user?.id
@@ -64,7 +71,7 @@ class CartController{
             res.status(400).json({message : "Please provide quantity"})
             return
         }
-        const cartData = await Cart.findOne({where : {userId, productId} })
+        const cartData = await Cart.findOne({where : {userId, productId}})
     
         if(cartData){
             cartData.quantity = quantity 

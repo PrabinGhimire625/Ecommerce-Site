@@ -1,12 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"; 
-import API from "../http";
-import { Status } from "../globals/types/types";
+import { Status } from "../../../globals/types/types";
+import {API} from "../../../http";
 
 interface RegisterData{
     username:string,
     email:string,
     password:string
 }
+
 interface LoginData{
     email : string, 
     password : string
@@ -48,10 +49,10 @@ const authSlice=createSlice({
     }
 })
 
-export const  {setUser,setStatus,resetStatus,setToken} =authSlice.actions
-export default authSlice.reducer
+export const  {setUser,setStatus,resetStatus,setToken} =authSlice.actions  
+export default authSlice.reducer  //now go to the store
 
-//register
+//registers
 export function register(data:RegisterData){
     return async function regsterThunk(dispatch:any) {
         dispatch(setStatus(Status.LOADING))
@@ -89,3 +90,8 @@ export function login(data:LoginData){
         }
     }
 }
+
+
+
+
+
