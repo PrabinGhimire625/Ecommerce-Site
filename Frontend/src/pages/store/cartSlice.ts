@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Status } from "../../../globals/types/types";
-import { CartState, CartItem } from "../../../globals/types/cartTypes";
+import { Status } from "../../globals/types/types";
+import { CartState, CartItem } from "../../globals/types/cartTypes";
 import { AppDispatch } from "./store";
-import { APIAuthenticated } from "../../../http";
+import { APIAuthenticated } from "../../http";
 
 const initialState:CartState={
     items:[],

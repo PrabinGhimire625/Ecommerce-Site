@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import Navbar from '../../../globals/components/navbar/Navbar'
 import { useParams } from 'react-router-dom'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { fetchSingleProduct } from '../store/productSlice'
-import { addToCart } from '../store/cartSlice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { fetchSingleProduct } from '../../store/productSlice'
+import { addToCart } from '../../store/cartSlice'
 
 const SingleProduct = () => {
     const {id}=useParams()

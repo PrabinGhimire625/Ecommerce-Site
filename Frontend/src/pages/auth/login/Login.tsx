@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom'
 
 import { UserDataType, UserLoginType } from '../types'
 import { Status } from '../../../globals/types/types'
-import { useAppDispatch, useAppSelector } from '../store/hooks'
-import { login, resetStatus } from '../store/authSlice'
+import { useAppDispatch, useAppSelector } from '../../store/hooks'
+import { login, resetStatus } from '../../store/authSlice'
 
 const Login = () => {
   const navigate=useNavigate()

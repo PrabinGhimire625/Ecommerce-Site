@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../pages/auth/store/hooks' 
+import { useAppDispatch, useAppSelector } from '../../../pages/store/hooks' 
 import { Link, useNavigate } from 'react-router-dom'
-import { fetchCartItem } from '../../../pages/auth/store/cartSlice'
+import { fetchCartItem } from '../../../pages/store/cartSlice'
 
 const Navbar = () => {
   const navigate=useNavigate()

@@ -1,7 +1,7 @@
 import Form from '../Form'
 import { UserDataType } from '../types'
-import { register, resetStatus } from '../store/authSlice'
-import { useAppDispatch, useAppSelector } from "../store/hooks"
+import { register, resetStatus } from '../../store/authSlice'
+import { useAppDispatch, useAppSelector } from "../../store/hooks"
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Status } from '../../../globals/types/types'

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppSelector } from '../auth/store/hooks'
+import { useAppSelector } from '../store/hooks'
 
 const Cart = () => {
     const {items}=useAppSelector((state)=>state.carts)
