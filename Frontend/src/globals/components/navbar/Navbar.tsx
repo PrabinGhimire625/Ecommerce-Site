@@ -35,7 +35,8 @@ const Navbar = () => {
         >
           {/* Main Header Content */}
           <div className="container mx-auto flex flex-col gap-4 px-4 text-center sm:flex-row sm:items-center sm:justify-between sm:gap-0 lg:px-8 xl:max-w-7xl">
-            <div>
+           <Link to='/'>
+           <div>
               <a href="#" className="group inline-flex items-center gap-2 text-lg font-bold tracking-wide text-gray-900 hover:text-gray-600 dark:text-gray-100 dark:hover:text-gray-300">
                 <svg
                   className="hi-mini hi-cube-transparent inline-block size-5 text-blue-600 transition group-hover:scale-110 dark:text-blue-400"
@@ -53,6 +54,7 @@ const Navbar = () => {
                 <span>Company</span>
               </a>
             </div>
+           </Link>
             <nav className="space-x-3 md:space-x-6">
               
               {/* if user is logged in then the logout option is seen if not then register and login */}

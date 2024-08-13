@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import Navbar from '../../../globals/components/navbar/Navbar'
 import Card from '../../../globals/components/card/Card'
 import Hero from './components/Hero'
 import { useAppDispatch, useAppSelector } from '../../store/hooks'

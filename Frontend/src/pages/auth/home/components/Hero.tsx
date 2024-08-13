@@ -5,7 +5,6 @@ const Hero = () => {
   return (
     <>
       <div className="relative overflow-hidden bg-white dark:bg-gray-900 dark:text-gray-100">
-        <Navbar/>
         {/* Hero Content */}
         <div className="container relative mx-auto flex flex-col gap-16 px-4 py-16 text-center lg:flex-row lg:gap-0 lg:px-8 lg:py-32 lg:text-left xl:max-w-7xl">
           <div className="lg:flex lg:w-1/2 lg:items-center">
