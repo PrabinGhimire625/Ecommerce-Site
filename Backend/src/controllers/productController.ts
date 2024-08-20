@@ -8,7 +8,6 @@ import { where } from "sequelize";
 import fs from "fs"
 
 class productController {
-
   //add the product
   async addProduct(req: AuthRequest, res: Response): Promise<void>{
     const userId=req.user?.id  //from the authMiddleware req.user to find the adminId

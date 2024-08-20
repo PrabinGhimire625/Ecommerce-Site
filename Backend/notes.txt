@@ -2,8 +2,7 @@ npm init -y  //package.json
 npm i express
 npm i  nodemon
 
-n
-pm i --save-dev typescript   //install typescript for development
+npm i --save-dev typescript   //install typescript for development
 npm install @types/express --save-dev    
 npm install @types/node --save-dev 
 npm install sequelize-typescript
@@ -45,7 +44,6 @@ const product =await Product.findAll(
       ]
       });
 
-
 //row in the table for ecommerce site
 users:id,username,email,password,role
 products:id,productName,productDescription,productTotalStockQty,productImageUrl,userId(fk), categoryId(fk)
@@ -72,3 +70,5 @@ addToCart=userId,productId
 getCartItem=userId, productId
 deleteCart=userId,productId
 updateCart=userId,productId
+
+//how to solve the successfully updateProduct message show but the product is not updated in the database

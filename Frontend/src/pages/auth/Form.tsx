@@ -58,7 +58,6 @@ const Form:React.FC<Props> = ({type,onSubmit}) => {
                       )
                     }
 
-
                     <div className="space-y-1">
                       <label htmlFor="email" className="text-sm font-medium">
                         Email

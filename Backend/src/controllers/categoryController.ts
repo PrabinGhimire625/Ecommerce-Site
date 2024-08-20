@@ -54,8 +54,8 @@ class categoryController{
     async updatecategory(req:Request, res:Response):Promise<void>{
         const id=req.params.id
         const {categoryName}=req.body
-        await Category.update({categoryName},{where:{id:id}})
-        res.status(200).json({message:"Category is successfully updated"})
+       const category= await Category.update({categoryName},{where:{id:id}})
+       res.status(200).json({message:"Category is successfully updated",data:category})
     }
 }
 

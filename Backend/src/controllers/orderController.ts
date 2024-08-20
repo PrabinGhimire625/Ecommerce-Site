@@ -6,6 +6,7 @@ import { KhaltiResponse, OrderData, OrderStatus, PaymentMethod, PaymentStatus, T
 import OrderDetail from "../database/models/OrderDetail";
 import axios from "axios";
 import Product from "../database/models/product";
+import Cart from "../database/models/cart";
 
 //exends all from parent Order model and declare paymentId
 class ExtendedOrder extends Order{
@@ -28,6 +29,12 @@ class orderController{
             quantity:items[i].quantity,
             productId:items[i].productId,
             orderId:orderData.id
+        })
+        //theis code : if order successfully done the items remove from the cart
+        await Cart.destroy({
+            where:{productId:items[i].productId,
+                userId:userId
+            }
         })
     }
 
@@ -89,7 +96,7 @@ async fetchMyOrder(req:AuthRequest, res:Response):Promise<void>{
     const userId=req.user?.id
     const orders=await Order.findAll({where:{userId}, include:[{model:Payment}]})
     if(orders.length>0){
-        res.status(200).json({message:"Order is successfully fetched",data:orders})
+        res.status(200).json({message:"My Order is successfully fetched",data:orders})
     }else{
         res.status(404).json({message:"You have not order anything ", data:[]})
     }

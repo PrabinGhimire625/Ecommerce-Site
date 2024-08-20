@@ -3,7 +3,6 @@ import { useAppDispatch, useAppSelector} from "../store/hooks"
 import { Link, useNavigate } from 'react-router-dom'
 import { deleteCartItem, updateCartItem } from '../store/cartSlice'
 
-
 const Cart = () => {
   const navigate=useNavigate()
   const dispatch=useAppDispatch()
@@ -22,7 +21,7 @@ const Cart = () => {
   // total vanako ya defin garako, 0 vanako total ko inital value 0 rakhna ho , item vanako array bhitra ko obj
   const totalItemInCarts=items.reduce((total,item)=>item?.quantity+total, 0)  //vvi  total quantity in cart
   const totalPriceInCarts=items.reduce((total,item)=>item?.Product?.productPrice*item?.quantity+total, 0)  //total price of cart item
-
+  
   return (
    <>
    <div className="h-screen bg-gray-100 pt-20">
@@ -45,7 +44,7 @@ const Cart = () => {
           <div className="mt-4 flex justify-between sm:space-y-6 sm:mt-0 sm:block sm:space-x-6">
             <div className="flex items-center border-gray-100">
               <span className="cursor-pointer rounded-l bg-gray-100 py-1 px-3.5 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>handleUpdate(item?.Product?.id, item?.quantity-1)} > - </span>
-              <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={item.quantity} min="1" />
+              <input className="h-8 w-8 border bg-white text-center text-xs outline-none" type="number" value={item?.quantity} min="1" />
               <span className="cursor-pointer rounded-r bg-gray-100 py-1 px-3 duration-100 hover:bg-blue-500 hover:text-blue-50" onClick={()=>handleUpdate(item?.Product.id, item?.quantity+1)}> + </span>
             </div>
             <div className="flex items-center space-x-4">

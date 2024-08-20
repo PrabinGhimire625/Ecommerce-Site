@@ -4,7 +4,8 @@ import { CartState, CartItem } from "../../globals/types/cartTypes";
 import { AppDispatch } from "./store";
 import { APIAuthenticated } from "../../http";
 
-const initialState:CartState={
+//items array bhitra gayara store ma store hunxa cart data
+const initialState:CartState={ 
     items:[],
     status:Status.LOADING
 }
@@ -28,19 +29,17 @@ const cartSlice=createSlice({
         setStatus(state:CartState,action:PayloadAction<Status> ){
             state.status=action.payload
         },
-        //items bata tyo particular cart item hatauna
+        //items array bata tyo particular cart item hatauna
         setDeleteItem(state:CartState, action:PayloadAction<DeleteAction>){
-            const index=state.items.findIndex(item=>item.Product.id=action.payload.productId)
-            state.items.splice(index, 1)   
+            const index=state.items.findIndex(item=>item.Product.id=action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            state.items.splice(index, 1)   // removes one item starting at the position index
         },
         setUpdateItem(state:CartState, action:PayloadAction<updateAction>){
             const index=state.items.findIndex(item=>item.Product.id=action.payload.productId)
-            if(index !==-1){
-                state.items[index].quantity=action.payload.quantity
+            if(index !==-1){  //if the item was found in the array.
+                state.items[index].quantity=action.payload.quantity  //updates the item's quantity in the cart.
             }
-
         },
-
     }
 })
 

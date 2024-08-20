@@ -44,7 +44,7 @@ class CartController{
         if(cartItem.length===0){
             res.status(400).json({message:"No item in a cart"})
         }else{
-            res.status(200).json({message:"Item is successfully added into the cart",data:cartItem})
+            res.status(200).json({message:"Successfully get items in the cart of the login user",data:cartItem})
         }
     }
 

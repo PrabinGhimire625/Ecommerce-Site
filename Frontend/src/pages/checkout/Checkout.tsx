@@ -1,15 +1,24 @@
-import React, { ChangeEvent, FormEvent, useState } from 'react'
-import { useAppSelector } from '../store/hooks'
+import React, { ChangeEvent, FormEvent, useEffect, useState } from 'react'
+import { useAppDispatch, useAppSelector } from '../store/hooks'
 import { ItemDetails, OrderData, PaymentMethod } from '../../globals/types/checkoutTypes'
+import { orderItem } from '../store/CheckoutSlice'
+import { Status } from '../../globals/types/types'
+import { useNavigate } from 'react-router-dom'
 
 const Checkout = () => {
+    const dispatch=useAppDispatch()
+    const navigate=useNavigate()
     const {items}=useAppSelector((state)=>state.carts)
+    const {khaltiUrl, status}=useAppSelector((state)=>state.orders)
+    console.log(khaltiUrl)
     console.log(items)
+
 
     //by default cod
     const [paymentMethod, setPaymentMethod]=useState<PaymentMethod>(PaymentMethod.COD)
 
-    const  [data,setData]=useState<OrderData>({
+    //for order 
+    const [data,setData]=useState<OrderData>({
       phoneNumber: "",
       shippingAddress: "",
       totalAmount: 0,
@@ -19,20 +28,19 @@ const Checkout = () => {
       items : []
     })
 
-
     //onChange:changeEvent and onSubmit:formEvent
     const handlePaymentMethod=(e:ChangeEvent<HTMLInputElement>)=>{
       setPaymentMethod(e.target.value as PaymentMethod)
-      setData({
+      setData({  //update paymentmethod in the setData useState also
         ...data,
         paymentDetails:{
           paymentMethod :e.target.value as PaymentMethod
         }
-
       })
     }
     console.log(paymentMethod)
 
+    //input field ma halako data chai useState ma lagara  setData ma saved hunxa
     const handelChange=(e:ChangeEvent<HTMLInputElement>)=>{
       const {name,value}=e.target
       setData({
@@ -42,28 +50,44 @@ const Checkout = () => {
     }
   
 
-    //place order
-    const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
+    //calculate the total amount
+    let subtotal=items.reduce((total, item)=>item.Product.productPrice*item.quantity+total,0);
+      
+    //place order button sumit 
+    const handleSubmit=async(e:FormEvent<HTMLFormElement>)=>{
       e.preventDefault()
-    const itemDetails:ItemDetails[]=items.map((item)=>{
+
+      const itemDetails:ItemDetails[]=items.map((item)=>{
         return{
-          productId:item.Product.id,
-          quantity:item.quantity,
+          productId:item?.Product?.id,
+          quantity:item?.quantity,
 
         }
       })
+      
 
-      const totalAmount=items.reduce((total, item)=>item.Product.productPrice*item.quantity+total,0)
-      const orderData={
+     const orderData={
         ...data,
         items:itemDetails,
-        totalAmount
+        totalAmount:subtotal
+      }
+      await dispatch(orderItem(orderData))
+    
+      //if  khaltiUrl  ayo vana place order garda khalti ko tyo url wal page ma redirect garna
+      if(khaltiUrl){
+        window.location.href= khaltiUrl
       }
 
-      console.log(orderData)
     }
 
-    console.log(data)
+    useEffect(()=>{
+       if(status===Status.SUCCESS){
+        alert("Order Placed Successfully")
+        navigate("/")
+      }
+
+    },[status,dispatch])
+
   return (
   <>
     <div className="flex flex-col items-center border-b bg-white py-4 sm:flex-row sm:px-10 lg:px-20 xl:px-32">
@@ -74,6 +98,8 @@ const Checkout = () => {
 </div>
 <div className="grid sm:px-10 lg:grid-cols-2 lg:px-20 xl:px-32">
   <div className="px-4 pt-8">
+
+    {/* Order Summary start here */}
     <p className="text-xl font-medium">Order Summary</p>
     <p className="text-gray-400">Check your items. And select a suitable shipping method.</p>
     <div className="mt-8 space-y-3 rounded-lg border bg-white px-2 py-4 sm:px-6">
@@ -91,7 +117,9 @@ const Checkout = () => {
           })
           }
     </div>
-
+    {/* Order Summary end here */}
+         
+    {/* choose payment method */}
     <p className="mt-8 text-lg font-medium">Payment Methods</p>
     <form className="mt-5 grid gap-6">
       <div className="relative">
@@ -115,7 +143,11 @@ const Checkout = () => {
         </label>
       </div>
     </form>
+    {/* end payment method */}
+
   </div>
+
+  {/* submit form to place the order*/}
  <form onSubmit={handleSubmit}>
  <div className="mt-10 bg-gray-50 px-4 pt-8 lg:mt-0">
     <p className="text-xl font-medium">Payment Details</p>
@@ -141,22 +173,30 @@ const Checkout = () => {
       <div className="mt-6 border-t border-b py-2">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-900">Subtotal</p>
-          <p className="font-semibold text-gray-900">Rs Subtotal</p>
+          <p className="font-semibold text-gray-900">Rs {subtotal}</p>
         </div>
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-gray-900">Shipping</p>
-          <p className="font-semibold text-gray-900">Rs shippingAmount</p>
+          <p className="font-semibold text-gray-900">Rs 100</p>
         </div>
       </div>
       <div className="mt-6 flex items-center justify-between">
         <p className="text-sm font-medium text-gray-900">Total</p>
-        <p className="text-2xl font-semibold text-gray-900">Rs totalAmount</p>
+        <p className="text-2xl font-semibold text-gray-900">Rs {subtotal+100}</p>
       </div>
     </div>
+
+    {paymentMethod===PaymentMethod.COD ?(
       <button type='submit' className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white">Place Order</button>
+    ):(
       <button className="mt-4 mb-8 w-full rounded-md bg-gray-900 px-6 py-3 font-medium text-white" style={{backgroundColor:'purple'}}>Pay With Khalti</button>
+    )
+    }
+      
   </div>
  </form>
+ {/* form end here */}
+
 </div>
     </>
   )

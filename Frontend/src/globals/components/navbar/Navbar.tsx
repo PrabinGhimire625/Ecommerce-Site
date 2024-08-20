@@ -10,14 +10,15 @@ const Navbar = () => {
   const {user}=useAppSelector((state)=>state.auth)  //slice bata data tanako
   const {items}=useAppSelector((state)=>state.carts)
   console.log(items)
+  console.log(user)
   const [isLoggedIn, setIsLoggedIn]=useState<boolean>(false)
 
+  //frist use this and then only data comes on  const {items}=useAppSelector((state)=>state.carts)
   //useEffect tigger when the changes in the user token
   useEffect(()=>{
     const token= localStorage.getItem('token')
     setIsLoggedIn(!!token || !!user.token)
     dispatch(fetchCartItem())
-
   },[user.token])
 
     //handle logout
