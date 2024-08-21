@@ -1,18 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../store/hooks';
 import { fetchMyOrder } from '../store/CheckoutSlice';
+import { Link } from 'react-router-dom';
+import { OrderStatus } from '../../globals/types/checkoutTypes';
 
 const MyOrders = () => {
   const dispatch=useAppDispatch();
-
   const {myOrders} =useAppSelector((state)=>state.orders)
-
+  const [selectedItem,setSelectedItem]=useState<OrderStatus>(OrderStatus.All) //search throught the dropdown of the order status
+  const [searchTerm,setSearchTerm]=useState<string>("")   //search through the search bar
+  const [date, setDate]=useState<string>("")  //search throught the date
 
   useEffect(()=>{
     dispatch(fetchMyOrder())
   },[])
 
-  console.log(myOrders)
+  // most usefull code for the searching
+  const filterOrders = myOrders.filter((order) => selectedItem === OrderStatus.All || order.orderStatus === selectedItem)  //filter throught the dropdown orderstatus
+  .filter((order) =>   //main search 
+    order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    order.Payment.paymentMethod.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    order.totalAmount.toString().includes(searchTerm)
+  )
+  .filter((order) => date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString());  //search through the date
+
 
   return (
     <div className="antialiased font-sans bg-gray-200 pt-2">
@@ -24,14 +35,15 @@ const MyOrders = () => {
           <div className="my-2 flex sm:flex-row flex-col">
             <div className="flex flex-row mb-1 sm:mb-0">
               <div className="relative">
-                <select
+                {/* search through the orderStatus */}
+                <select onChange={(e)=>setSelectedItem(e.target.value as OrderStatus)}
                   className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
-                  <option value="">all</option>
-                  <option value="">pending</option>
-                  <option value="">delivered</option>
-                  <option value="">ontheway</option>
-                  <option value="">cancelled</option>
-                  <option value="">preparation</option>
+                  <option value={OrderStatus.All}>all</option>
+                  <option value={OrderStatus.Pending}>pending</option>
+                  <option value={OrderStatus.Delivered}>delivered</option>
+                  <option value={OrderStatus.Ontheway}>ontheway</option>
+                  <option value={OrderStatus.Cancel}>cancelled</option>
+                  <option value={OrderStatus.Preparation}>preparation</option>
                 </select>
                 <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                   <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
@@ -48,16 +60,18 @@ const MyOrders = () => {
                   </path>
                 </svg>
               </span>
-              <input
-                placeholder="Search"
-                className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+
+            
+            {/* search throught search bar*/}
+              <input value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
             </div>
+
+
+            {/* search throught the date */}
             <div className="block relative">
-              <input
-                placeholder="Search"
-                type="date"
-                className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
+              <input value={date} onChange={(e)=>setDate(e.target.value)} placeholder="Search"  type="date" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
             </div>
+
           </div>
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
@@ -91,12 +105,17 @@ const MyOrders = () => {
 
  {/* loop the myorder */} 
                 {
-  myOrders.length > 0 && myOrders.map((order) => {
+  filterOrders.length > 0 && filterOrders.map((order) => {
     return (
       <tr key={order.id}>
-        <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+    
+     <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
+     <Link to={`/myOrders/${order.id}`}>
           <p className="text-blue-900 whitespace-no-wrap" style={{ textDecoration: 'underline' }}>{order.id}</p>
-        </td>
+      </Link>
+      </td>
+    
+     
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
           <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
         </td>

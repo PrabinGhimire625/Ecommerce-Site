@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Status } from "../../globals/types/types";
-import { MyOrdersData, OrderData, OrderResponseData, OrderResponseItem } from "../../globals/types/checkoutTypes";
+import { MyOrdersData, OrderData, OrderDetails, OrderResponseData, OrderResponseItem } from "../../globals/types/checkoutTypes";
 import { act } from "react";
 import { AppDispatch } from "./store";
 import { APIAuthenticated } from "../../http";
@@ -9,7 +9,8 @@ const initialState:OrderResponseData = {
     items : [],
     status : Status.LOADING,
     khaltiUrl:null,  //for khalti
-    myOrders:[]
+    myOrders:[],
+    OrderDetails:[]
 }
 
 
@@ -29,10 +30,13 @@ const orderSlice=createSlice({
         setMyOrders(state:OrderResponseData, action:PayloadAction<MyOrdersData[]>){
             state.myOrders=action.payload
         },
+        setMyOrdersDetails(state:OrderResponseData, action:PayloadAction<OrderDetails[]>){
+            state.OrderDetails=action.payload
+        },
     }
 })
 
-export const {setItems,setStatus,setKhaltiUrl,setMyOrders}=orderSlice.actions
+export const {setItems,setStatus,setKhaltiUrl,setMyOrders,setMyOrdersDetails}=orderSlice.actions
 export default orderSlice.reducer
 
 //order 
@@ -72,6 +76,27 @@ export function fetchMyOrder(){
                 dispatch(setStatus(Status.ERROR))
             }
         }catch(err){
+            dispatch(setStatus(Status.ERROR))
+        }  
+    }
+}
+
+
+//fetch the order of the singleorders
+export function fetchMyOrderDetails(id:string){
+    return async function fetchMyOrderDetailsThunk(dispatch:AppDispatch) {
+        dispatch(setStatus(Status.LOADING))
+        try{
+            const response=await APIAuthenticated.get('/order/customer/' + id)
+            console.log(response)
+            if(response.status===200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setMyOrdersDetails(response.data.data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        }catch(err){
+            console.log(err)
             dispatch(setStatus(Status.ERROR))
         }  
     }

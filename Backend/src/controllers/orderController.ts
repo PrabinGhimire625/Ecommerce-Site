@@ -7,6 +7,8 @@ import OrderDetail from "../database/models/OrderDetail";
 import axios from "axios";
 import Product from "../database/models/product";
 import Cart from "../database/models/cart";
+import User from "../database/models/userModel";
+import Category from "../database/models/category";
 
 //exends all from parent Order model and declare paymentId
 class ExtendedOrder extends Order{
@@ -61,8 +63,7 @@ class orderController{
             message : "order placed successfully",
             url : khaltiResponse.payment_url, 
             data : responseOrderData
-        })
-        
+        })    
     }else{
         res.status(200).json({message :"Order placed successfully"})
     }
@@ -102,14 +103,43 @@ async fetchMyOrder(req:AuthRequest, res:Response):Promise<void>{
     }
 }
 
-//fetch orderDetails or single order
-async fetchOrderDetails(req:AuthRequest,res:Response):Promise<void>{
-    const orderId=req.params.id
-    const orderDetails=await OrderDetail.findAll({where:{orderId},include:[{model:Product}]})
-    if(orderDetails.length>0){
-        res.status(200).json({message:"OrderDetails is successfully fetched "})
-    }else{
-        res.status(500).json({message:"No orderDetails is found"})
+async fetchOrderDetails(req: AuthRequest, res: Response): Promise<void> {
+    const orderId = req.params.id;
+    try {
+        const orderDetails = await OrderDetail.findAll({
+            where: { orderId },
+            include: [
+                {
+                    model: Product,
+                    include: [{
+                        model: Category,
+                        attributes: ['categoryName']
+                    }]
+                },
+                {
+                    model: Order,
+                    include: [
+                        {
+                            model: Payment,
+                            attributes: ['paymentMethod', 'paymentStatus']
+                        },
+                        {
+                            model: User,
+                            attributes: ['username', 'email']
+                        }
+                    ]
+                }
+            ]
+        });
+
+        if (orderDetails.length > 0) {
+            res.status(200).json({ message: "OrderDetails is successfully fetched", data: orderDetails });
+        } else {
+            res.status(404).json({ message: "No order details found" }); // Changed from 500 to 404
+        }
+    } catch (error) {
+        console.error("Error fetching order details:", error);
+        res.status(500).json({ message: "Internal Server Error" });
     }
 }
 

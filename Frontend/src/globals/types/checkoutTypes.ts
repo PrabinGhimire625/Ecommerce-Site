@@ -1,9 +1,6 @@
 import { Product } from "./productTypes"
 import { Status } from "./types"
 
-
-
-
 //payment type start
 export enum PaymentMethod{
     COD = 'cod',
@@ -58,16 +55,15 @@ export interface OrderData{
 }
 
 
-
-
-
-
+//main payload ma jana yo ho
 export interface OrderResponseData{
    items : OrderResponseItem[],
    status : Status, 
    khaltiUrl:string | null,
-   myOrders:MyOrdersData[]
+   myOrders:MyOrdersData[],
+   OrderDetails: OrderDetails[] //obj ma ayara bascha
 }
+
 
 interface UserData{
     username : string, 
@@ -96,5 +92,5 @@ export interface OrderDetails {
     quantity : number , 
     orderId : string, 
     Product : Product,
-    Order : MyOrdersData
+    Order : MyOrdersData,
 }
