@@ -90,7 +90,18 @@ class orderController{
         res.status(200).json({message : "Payment not verified"})
     }
 }
+
+
 //customer side end here
+//fetch all orders
+async fetchAllOrders(req:AuthRequest, res:Response):Promise<void>{
+    const orders=await Order.findAll({include:[{model:Payment}]})
+    if(orders.length>0){
+        res.status(200).json({message:"All orders is successfully fetched",data:orders})
+    }else{
+        res.status(404).json({message:"You have not order anything ", data:[]})
+    }
+}
 
 //customer side start
 async fetchMyOrder(req:AuthRequest, res:Response):Promise<void>{
@@ -201,6 +212,8 @@ async deleteOrder(req:Request,res:Response):Promise<void>{
     })
   }
 }
+
+
 
 }
 

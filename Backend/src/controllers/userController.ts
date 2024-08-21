@@ -2,6 +2,7 @@ import User from "../database/models/userModel";
 import { Request,Response } from "express";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
+import { AuthRequest } from "../middleware/authMiddleware";
 
 class AuthController{
     //register user
@@ -46,6 +47,17 @@ class AuthController{
     //         res.status(500).json({ message: "Internal server error" });
     //     }
     // }
+
+
+    //fetch all orders
+public static async fetchAllUsers(req:AuthRequest, res:Response):Promise<void>{
+    const users=await User.findAll()
+    if(users.length>0){
+        res.status(200).json({message:"User successfully fetched",data:users})
+    }else{
+        res.status(404).json({message:"Error on fetching user", data:[]})
+    }
+}
     
 }
 

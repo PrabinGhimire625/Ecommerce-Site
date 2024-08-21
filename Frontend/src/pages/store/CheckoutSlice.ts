@@ -39,7 +39,7 @@ const orderSlice=createSlice({
 export const {setItems,setStatus,setKhaltiUrl,setMyOrders,setMyOrdersDetails}=orderSlice.actions
 export default orderSlice.reducer
 
-//order 
+// fetch order 
 export function orderItem(data:OrderData){
     return async function orderItemThunk(dispatch:AppDispatch) {
         dispatch(setStatus(Status.LOADING))
