@@ -24,7 +24,6 @@ const MyOrders = () => {
   )
   .filter((order) => date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString());  //search through the date
 
-
   return (
     <div className="antialiased font-sans bg-gray-200 pt-2">
       <div className="container mx-auto px-4 sm:px-8">
@@ -114,8 +113,7 @@ const MyOrders = () => {
           <p className="text-blue-900 whitespace-no-wrap" style={{ textDecoration: 'underline' }}>{order.id}</p>
       </Link>
       </td>
-    
-     
+
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
           <p className="text-gray-900 whitespace-no-wrap">{order.totalAmount}</p>
         </td>

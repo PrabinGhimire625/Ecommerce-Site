@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import SidebarLinkGroup from './SidebarLinkGroup';
 import Logo from '../../images/logo/logo.svg';
+import { useAppDispatch } from '../../store/hooks';
+import { fetchAllOrders, fetchAllUsers, fetchProduct } from '../../store/dataSlice';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -19,6 +21,19 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
   const [sidebarExpanded, setSidebarExpanded] = useState(
     storedSidebarExpanded === null ? false : storedSidebarExpanded === 'true'
   );
+
+
+  const dispatch=useAppDispatch();
+  useEffect(()=>{
+    dispatch(fetchAllOrders())
+    dispatch(fetchProduct())
+    dispatch(fetchAllUsers())
+
+  })
+
+
+
+
 
   // close on click outside
   useEffect(() => {
@@ -229,6 +244,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
               </li>
               {/* <!-- Menu Item Profile --> */}
 
+
               {/* <!-- Menu Item Forms --> */}
               <SidebarLinkGroup
                 activeCondition={
@@ -282,6 +298,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                         Forms
+
                         <svg
                           className={`absolute right-4 top-1/2 -translate-y-1/2 fill-current ${
                             open && 'rotate-180'
@@ -300,23 +317,33 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                           />
                         </svg>
                       </NavLink>
-                      {/* <!-- Dropdown Menu Start --> */}
-                      <div
+                         {/* <!-- Dropdown Menu Start --> */}
+                         <div
                         className={`translate transform overflow-hidden ${
                           !open && 'hidden'
                         }`}
                       >
                         <ul className="mt-4 mb-5.5 flex flex-col gap-2.5 pl-6">
-                          
                           <li>
                             <NavLink
-                              to="/forms/form-layout"
+                              to="/forms/addProduct"
                               className={({ isActive }) =>
                                 'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
                                 (isActive && '!text-white')
                               }
                             >
-                              Form Layout
+                              Add Product
+                            </NavLink>
+                          </li>
+                          <li>
+                            <NavLink
+                              to="/forms/editProduct"
+                              className={({ isActive }) =>
+                                'group relative flex items-center gap-2.5 rounded-md px-4 font-medium text-bodydark2 duration-300 ease-in-out hover:text-white ' +
+                                (isActive && '!text-white')
+                              }
+                            >
+                              Edit Product
                             </NavLink>
                           </li>
                         </ul>
@@ -361,7 +388,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Datas
+                  Manage datas
                 </NavLink>
               </li>
               {/* <!-- Menu Item Tables --> */}

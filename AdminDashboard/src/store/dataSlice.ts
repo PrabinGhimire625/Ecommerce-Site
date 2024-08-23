@@ -12,6 +12,19 @@ const initialState:InitialState={
     singleProduct:null
 }
 
+export interface DeleteProduct{
+    productId:string
+}
+
+export interface DeleteOrder{
+    orderId:string
+
+}
+export interface DeleteUser{
+    userId:string
+
+}
+
 const dataSlice=createSlice({
     name:"data",
     initialState,
@@ -22,6 +35,10 @@ const dataSlice=createSlice({
         setUser(state:InitialState, action:PayloadAction<User[]>){
             state.users=action.payload
         },
+        setDeleteUser(state:InitialState, action:PayloadAction<DeleteUser>){
+            const index=state.users.findIndex(item=>item.id=action.payload.userId) 
+            state.users.splice(index, 1)  
+        },
         setProduct(state:InitialState, action:PayloadAction<Product[]>){
             state.products=action.payload
         },
@@ -30,14 +47,23 @@ const dataSlice=createSlice({
         },
         setSingleProduct(state:InitialState, action:PayloadAction<Product>){
             state.singleProduct=action.payload
-        }
+        },
+        //items array bata tyo particular cart item hatauna  //refresh garipaxi matra delete huna problem fixed garxa state bata pani deete garxa
+        setDeleteProduct(state:InitialState, action:PayloadAction<DeleteProduct>){
+            const index=state.products.findIndex(item=>item.id=action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            state.products.splice(index, 1)   // removes one item starting at the position index
+        },
+        setDeleteOrder(state:InitialState, action:PayloadAction<DeleteOrder>){
+            const index=state.orders.findIndex(item=>item.id=action.payload.orderId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            state.orders.splice(index, 1)   // removes one item starting at the position index
+        },
     }
 })
 
-export const {setStatus,setUser,setProduct,setOrder,setSingleProduct}=dataSlice.actions
+export const {setStatus,setUser,setProduct,setOrder,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder}=dataSlice.actions
 export default dataSlice.reducer
 
-//fetch all orders
+//fetch all users
 export function fetchAllUsers(){
     return async function fetchAllOrdersThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
@@ -45,6 +71,7 @@ export function fetchAllUsers(){
             const respose=await APIAuthenticated.get("/users")
             if(respose.status===200){
                 const {data} =respose.data
+                console.log(data)
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setUser(data))
             }else{
@@ -55,6 +82,25 @@ export function fetchAllUsers(){
         }        
     }
 }
+
+//delete user
+export function deleteUser(id:string){
+    return async function deleteUserThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete('/users/' + id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))              
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+
 
 //hit the api and fetch the data 
 export function fetchProduct(){
@@ -135,8 +181,10 @@ export function fetchAllOrders(){
         dispatch(setStatus(Status.LOADING))
         try{
             const respose=await APIAuthenticated.get("/order")
+            console.log(respose)
             if(respose.status===200){
                 const {data} =respose.data
+                console.log(data)
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setOrder(data))
             }else{
@@ -145,6 +193,23 @@ export function fetchAllOrders(){
         }catch(err){
             dispatch(setStatus(Status.ERROR))
         }        
+    }
+}
+
+
+export function deleteOrder(id:string){
+    return async function deleteOrderThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete('/order/admin/' + id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))    
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
     }
 }
 

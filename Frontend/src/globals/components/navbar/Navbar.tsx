@@ -76,6 +76,11 @@ const Navbar = () => {
                 <Link to='#' onClick={handleLogout} className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
                   <span>Logout</span>
                 </Link>
+                <Link to='/profile' className="text-sm font-semibold text-gray-900 hover:text-blue-600 dark:text-gray-100 dark:hover:text-blue-400">
+                  <span>Profile</span>
+                </Link>
+
+
                 </>
               )
               }

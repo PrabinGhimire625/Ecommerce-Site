@@ -2,8 +2,8 @@ import React, { ReactNode } from 'react';
 
 interface CardDataStatsProps {
   title: string;
-  total: string;
-  rate: string;
+  total: number;
+  rate?: string;
   levelUp?: boolean;
   levelDown?: boolean;
   children: ReactNode;
