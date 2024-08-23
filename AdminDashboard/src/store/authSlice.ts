@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit"; 
 import { Status } from "../types/status";
 import { AppDispatch } from "./store";
-import { API } from "../http";
+import { API, APIAuthenticated } from "../http";
 
 
 interface LoginData{
@@ -19,13 +19,16 @@ interface User{
 interface Authstate{
     user:User,
     status:Status,
-    token:string | null
+    token:string | null,
+    userProfile: User | null
 }
 
 const initialState:Authstate={
     user:{} as User,
     status:Status.LOADING,
-    token: null
+    token: null,
+    userProfile:null
+
 }
 
 const authSlice=createSlice({
@@ -44,6 +47,9 @@ const authSlice=createSlice({
         setToken(state:Authstate, action:PayloadAction<string>){
             state.user.token=action.payload
         },
+        setUserProfile(state:Authstate,action:PayloadAction<User>){
+            state.userProfile=action.payload 
+        },
         // handle logout by frontend 
         setUserLogout(state:Authstate){
             state.token=null
@@ -57,7 +63,7 @@ const authSlice=createSlice({
     }
 })
 
-export const  {setUser,setStatus,resetStatus,setToken,setUserLogout} =authSlice.actions  
+export const  {setUser,setStatus,resetStatus,setToken,setUserLogout,setUserProfile} =authSlice.actions  
 export default authSlice.reducer  //now go to the store
 
 //login
@@ -77,6 +83,27 @@ export function login(data:LoginData){
         }catch(err){
             console.log(err)
             dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+//fetch the user profile
+export function fetchUserProfile() {
+    return async function fetchUserProfileThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.get(`/profile`);
+            if (response.status === 200) {
+                const { data } = response.data;
+                console.log(data)
+                dispatch(setUserProfile(data));
+                dispatch(setStatus(Status.SUCCESS));
+            } else {
+                dispatch(setStatus(Status.ERROR));
+            }
+        } catch (error) {
+            console.error(error);
+            dispatch(setStatus(Status.ERROR));
         }
     }
 }

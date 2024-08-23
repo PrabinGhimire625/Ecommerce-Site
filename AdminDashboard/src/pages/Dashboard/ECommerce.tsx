@@ -3,7 +3,6 @@ import CardDataStats from '../../components/CardDataStats';
 import ChartOne from '../../components/Charts/ChartOne';
 import ChartThree from '../../components/Charts/ChartThree';
 import ChartTwo from '../../components/Charts/ChartTwo';
-import ChatCard from '../../components/Chat/ChatCard';
 import MapOne from '../../components/Maps/MapOne';
 import TableOne from '../../components/Tables/TableOne';
 import { useAppSelector } from '../../store/hooks';
@@ -118,7 +117,6 @@ const ECommerce: React.FC = () => {
         <div className="col-span-12 xl:col-span-8">
           <TableOne />
         </div>
-        <ChatCard />
       </div>
     </>
   );

@@ -9,7 +9,7 @@ const router: Router = express.Router();
 
 router.route("/").post(authMiddleware.isAuthenticated, authMiddleware.restrictTo(Role.Admin),
 upload.single('image'), productController.addProduct).
-get(productController.getAllProdust)
+get(authMiddleware.isAuthenticated,authMiddleware.restrictTo(Role.Admin),errorHandler(productController.getAllProdust))
 
 router.route("/:id").get(productController.getSingleProduct)
 .patch(upload.single('image'),errorHandler(productController.updateProduct))

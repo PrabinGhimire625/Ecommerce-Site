@@ -16,13 +16,22 @@ export interface DeleteProduct{
     productId:string
 }
 
+export interface UpdateProduct{
+    productId:string,
+    id:string
+    productName:string,
+    productDescription:string,
+    productPrice:number,
+    productTotalStockQty:number,
+    productImageUrl:string
+}
+
 export interface DeleteOrder{
     orderId:string
 
 }
 export interface DeleteUser{
     userId:string
-
 }
 
 const dataSlice=createSlice({
@@ -57,6 +66,19 @@ const dataSlice=createSlice({
             const index=state.orders.findIndex(item=>item.id=action.payload.orderId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
             state.orders.splice(index, 1)   // removes one item starting at the position index
         },
+        setUpdateProduct(state: InitialState, action: PayloadAction<UpdateProduct>){
+            const index = state.products.findIndex(item => item.id === action.payload.productId);
+            if (index !== -1) {
+              state.products[index] = {
+                ...state.products[index], // retain other properties if necessary
+                productName: action.payload.productName,
+                productDescription: action.payload.productDescription,
+                productPrice: action.payload.productPrice,
+                productTotalStockQty: action.payload.productTotalStockQty,
+                productImageUrl: action.payload.productImageUrl
+              };
+            }
+          }
     }
 })
 
@@ -99,7 +121,6 @@ export function deleteUser(id:string){
         }
     }
 }
-
 
 
 //hit the api and fetch the data 

@@ -9,12 +9,11 @@ import ECommerce from './pages/Dashboard/ECommerce';
 import AddProduct from './pages/Form/AddProduct';
 import Profile from './pages/Profile';
 import Settings from './pages/Settings';
-import Tables from './pages/Tables';
-import Alerts from './pages/UiElements/Alerts';
 import Buttons from './pages/UiElements/Buttons';
 import DefaultLayout from './layout/DefaultLayout';
 import store from './store/store';
 import EditProduct from './pages/Form/EditProduct';
+import Tables from './pages/Tables';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -77,8 +76,7 @@ function App() {
               <PageTitle title="Form addProduct | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <EditProduct />
             </>
-            </DefaultLayout>
-            
+            </DefaultLayout>           
           }
         />
         <Route
@@ -110,17 +108,6 @@ function App() {
             <>
               <PageTitle title="Basic Chart | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <Chart />
-            </>
-            </DefaultLayout>
-          }
-        />
-        <Route
-          path="/ui/alerts"
-          element={
-            <DefaultLayout>
-            <>
-              <PageTitle title="Alerts | TailAdmin - Tailwind CSS Admin Dashboard Template" />
-              <Alerts />
             </>
             </DefaultLayout>
           }

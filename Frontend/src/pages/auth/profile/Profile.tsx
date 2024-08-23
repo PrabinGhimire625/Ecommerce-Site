@@ -1,19 +1,26 @@
 import React, { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { deleteUser, fetchUserProfile } from '../../store/authSlice';
+import { deleteUser, fetchUserProfile, removeUserProfile } from '../../store/authSlice';
+import { useNavigate } from 'react-router-dom';
 
 const Profile = () => {
     const dispatch = useAppDispatch();
+    const navigate=useNavigate()
     const { userProfile, status } = useAppSelector((state) => state.auth);
-
+    console.log(userProfile?.id)
+    
     useEffect(() => {
         dispatch(fetchUserProfile()); // Fetch user profile data when component mounts
     }, [dispatch]);
 
     const handleDeleteUser = (id: string | undefined) => {
         if (id) {
+            console.log(id)
             dispatch(deleteUser(id));
+            dispatch(removeUserProfile())
+            localStorage.removeItem('token')
             alert("Successfully deleted the user") 
+            navigate("/register")
         }
     };
 

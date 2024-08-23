@@ -4,47 +4,48 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../store/authSlice';
 import { Status } from '../../types/status';
 
-export interface UserDataType{
-  email:string,
-  password:string
+export interface UserDataType {
+  email: string;
+  password: string;
 }
 
 const SignIn = () => {
-  const dispatch=useAppDispatch()
-  const navigate=useNavigate()
-  const {status}=useAppSelector((state)=>state.auth)
-  console.log(status)
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const { status } = useAppSelector((state) => state.auth);
+  const [errorMessage, setErrorMessage] = useState("");
 
+  const [userData, setUserData] = useState<UserDataType>({
+    email: "",
+    password: ""
+  });
 
-  const [userData,setUserData]=useState<UserDataType>({
-    email:"",
-    password:""
-  })
-
-  //manage the handle change event
-  const handleChange=(e:ChangeEvent<HTMLInputElement>)=>{
-    const {name,value}=e.target
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
     setUserData({
       ...userData,
-      [name]:value
-    })
-  }
+      [name]: value
+    });
+  };
 
-  //manage handle submit
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(login(userData));
+  };
 
-  const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
-    e.preventDefault()
-    dispatch(login(userData))
-  }
-
-//if successfully login or status is success then navigate
-  useEffect(()=>{
-    if(status===Status.SUCCESS){
-      navigate("/")
-    }else{
-      navigate("/login")
+  useEffect(() => {
+    if (status === Status.SUCCESS) {
+      navigate("/");
+    } else if (status === Status.ERROR) {
+      setErrorMessage("Your email and password is not matched!");
     }
-  },[status,dispatch])
+  }, [status, navigate]);
+
+  const errorMessageStyle = {
+    color: "red",
+    marginLeft: "50px",
+    marginTop: "10px"
+  };
 
   return (
     <>
@@ -55,14 +56,14 @@ const SignIn = () => {
               <h1 className="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Sign in to your account
               </h1>
-              <form  onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
+              <form onSubmit={handleSubmit} className="space-y-4 md:space-y-6" action="#">
                 <div>
                   <label htmlFor="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
                     Your email
                   </label>
                   <input
                     type="email"
-                   onChange={handleChange}
+                    onChange={handleChange}
                     name="email"
                     id="email"
                     className="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
@@ -107,12 +108,13 @@ const SignIn = () => {
                 </div>
                 <button type="submit" className="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Sign in</button>
 
-                <p className="text-sm font-light text-gray-500 dark:text-gray-400">
+                <p className="text-sm font-light text-gray-500 dark:text-gray-400 ml-20">
                   Don’t have an account yet?{' '}
                   <a href="#" className="font-medium text-primary-600 hover:underline dark:text-primary-500">
                     Sign up
                   </a>
                 </p>
+                {errorMessage && <p className="error-message" style={errorMessageStyle}>{errorMessage}</p>}
               </form>
             </div>
           </div>

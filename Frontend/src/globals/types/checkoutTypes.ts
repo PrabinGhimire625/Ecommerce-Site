@@ -11,8 +11,8 @@ enum PaymentStatus{
     Paid = 'paid',
     Unpaid = 'unpaid',
     Pending = 'pending'
-
 }
+
 interface Payment{
     paymentMethod : PaymentMethod
 }

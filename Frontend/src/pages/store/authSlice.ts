@@ -30,12 +30,15 @@ interface Authstate{
 
 }
 
+export interface DeleteUser{
+    userId:string
+}
+
 const initialState:Authstate={
     user:{} as User,
     status:Status.LOADING,
     userProfile:null,
     singleUser:null
-
 }
 
 const authSlice=createSlice({
@@ -55,15 +58,20 @@ const authSlice=createSlice({
             state.user.token=action.payload
         },
         setUserProfile(state:Authstate,action:PayloadAction<User>){
+           console.log( state.userProfile)
             state.userProfile=action.payload
+            console.log(state.userProfile)
         },
         setSingleUser(state:Authstate,action:PayloadAction<User>){
             state.singleUser=action.payload
+        },
+        removeUserProfile(state: Authstate) {
+            state.userProfile = null;
         }
     }
 })
 
-export const  {setUser,setStatus,resetStatus,setToken,setUserProfile,setSingleUser} =authSlice.actions  
+export const  {setUser,setStatus,resetStatus,setToken,setUserProfile,setSingleUser,removeUserProfile} =authSlice.actions  
 export default authSlice.reducer  //now go to the store
 
 //registers
