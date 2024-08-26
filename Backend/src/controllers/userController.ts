@@ -14,22 +14,42 @@ class AuthController{
     }
     
     //login user
-    public static async loginUser(req:Request,res:Response):Promise<void>{
-        const {email,password}=req.body;  //frontend bata
-        const [user]=await User.findAll({where:{email:email}})  //findAll return in array so [user] destructure
-        if(!user){
-            res.status(404).json({message:"No user with that email is found"})
-            return
+    public static async loginUser(req: Request, res: Response): Promise<void> {
+        const { email, password } = req.body;  // Extract email and password from request body
+        
+        // Find the user by email
+        const [user] = await User.findAll({ where: { email: email } }); // findAll returns an array so destructure with [user]
+        
+        if (!user) {
+          res.status(404).json({ message: "No user with that email is found" });
+          return;
         }
-        const isMatched=bcrypt.compareSync(password,user.password)
-        if(!isMatched){
-            res.status(403).json({message:"Password is not valid "})
-            return
+      
+        // Compare the provided password with the hashed password stored in the database
+        const isMatched = bcrypt.compareSync(password, user.password);
+        
+        if (!isMatched) {
+          res.status(403).json({ message: "Password is not valid" });
+          return;
         }
-        //generate token after matched the password
-        const token=jwt.sign({id:user.id},process.env.SECRET_KEY as string,{expiresIn:"20d"})   //go to the authMiddleware for verify the token
-        res.status(200).json({message:"Successfully login",data:token})       
-    }
+      
+        // Generate token after the password matches
+        const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY as string, { expiresIn: "20d" }); // Generate JWT token
+      
+        // Send response with user data and token
+        res.status(200).json({
+          message: "Successfully logged in",
+          data: {
+            token: token,
+            user: {
+              id: user.id,
+              username:user.username,
+              email: user.email,  
+            }
+          }
+        });
+      }
+      
 
     //login method2 using the findOne() instead of findAll()
     // async loginUser(req: Request, res: Response): Promise<void> {
@@ -80,7 +100,7 @@ class AuthController{
         }else{
             res.status(404).json({message:"Error on fetching user", data:[]})
         }
-        }   
+    }   
     
     //delete the user
     public static async deleteUser(req: AuthRequest, res: Response) {

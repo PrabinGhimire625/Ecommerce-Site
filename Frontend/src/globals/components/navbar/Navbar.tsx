@@ -7,21 +7,20 @@ const Navbar = () => {
   const navigate=useNavigate()
   const dispatch=useAppDispatch()
   //authSlice bata user token launa useSelector use garnu parxa
-  const {user}=useAppSelector((state)=>state.auth)  //slice bata data tanako
+  const {token}=useAppSelector((state)=>state.auth) //"auth" store ko reducer bhitra bata ayo  //check status
   const {items}=useAppSelector((state)=>state.carts)
-  console.log(items)
-  console.log(user)
   const [isLoggedIn, setIsLoggedIn]=useState<boolean>(false)
-
+  console.log(isLoggedIn)
   //frist use this and then only data comes on  const {items}=useAppSelector((state)=>state.carts)
   //useEffect tigger when the changes in the user token
-  useEffect(()=>{
-    const token= localStorage.getItem('token')
-    setIsLoggedIn(!!token || !!user.token)
-    dispatch(fetchCartItem())
-  },[user.token])
-
-    //handle logout
+  useEffect(() => {
+    const localStorageToken = localStorage.getItem('token');
+    console.log(localStorageToken)
+    setIsLoggedIn(!!localStorageToken || !!token);
+    dispatch(fetchCartItem());
+  }, [token]);
+  
+   // handle logout
     const handleLogout=()=>{
       localStorage.removeItem('token')
       setIsLoggedIn(false)

@@ -26,8 +26,8 @@ interface Authstate{
     user:User,
     status:Status,
     userProfile:User | null,
-    singleUser:User | null
-
+    singleUser:User | null,
+    token:string |null
 }
 
 export interface DeleteUser{
@@ -38,8 +38,10 @@ const initialState:Authstate={
     user:{} as User,
     status:Status.LOADING,
     userProfile:null,
-    singleUser:null
+    singleUser:null,
+    token:null
 }
+
 
 const authSlice=createSlice({
     name:'auth',
@@ -47,6 +49,7 @@ const authSlice=createSlice({
     reducers:{
         setUser(state:Authstate,action:PayloadAction<User>){
             state.user=action.payload
+            console.log(state.user)
         },
         setStatus(state:Authstate, action:PayloadAction<Status>){
             state.status=action.payload
@@ -55,10 +58,11 @@ const authSlice=createSlice({
             state.status=Status.LOADING
         },
         setToken(state:Authstate, action:PayloadAction<string>){
-            state.user.token=action.payload
+            state.token=action.payload
+            console.log(state.token)
         },
         setUserProfile(state:Authstate,action:PayloadAction<User>){
-           console.log( state.userProfile)
+           console.log(state.userProfile)
             state.userProfile=action.payload
             console.log(state.userProfile)
         },
@@ -101,8 +105,10 @@ export function login(data:LoginData){
             if(response.status===200){
                 const {data}=response.data
                 dispatch(setStatus(Status.SUCCESS))
-                dispatch(setToken(data))  //store in the redux toolkit
-                localStorage.setItem('token',data)
+                dispatch(setUserProfile(data.user))
+                console.log(data.token)
+               dispatch(setToken(data.token))  //store in the redux toolkit
+                localStorage.setItem('token',data.token)
             }else{
                 dispatch(setStatus(Status.ERROR))
             }

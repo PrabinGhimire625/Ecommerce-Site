@@ -31,11 +31,15 @@ const cartSlice=createSlice({
         },
         //items array bata tyo particular cart item hatauna
         setDeleteItem(state:CartState, action:PayloadAction<DeleteAction>){
-            const index=state.items.findIndex(item=>item.Product.id=action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            const index=state.items.findIndex(item=>item.Product.id==action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            console.log(action.payload)
+            console.log(state.items)
+            console.log(index)
             state.items.splice(index, 1)   // removes one item starting at the position index
         },
+
         setUpdateItem(state:CartState, action:PayloadAction<updateAction>){
-            const index=state.items.findIndex(item=>item.Product.id=action.payload.productId)
+            const index=state.items.findIndex(item=>item.Product.id==action.payload.productId)
             if(index !==-1){  //if the item was found in the array.
                 state.items[index].quantity=action.payload.quantity  //updates the item's quantity in the cart.
             }

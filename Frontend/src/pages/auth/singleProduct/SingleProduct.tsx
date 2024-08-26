@@ -32,7 +32,7 @@ const SingleProduct = () => {
         <div className="flex flex-col md:flex-row -mx-4">
             <div className="md:flex-1 px-4">
                 <div className="h-[460px] rounded-lg bg-gray-300 dark:bg-gray-700 mb-4">
-                    <img className="w-full h-full object-cover" src={`http://localhost:3000/${singleProduct?.productImageUrl}`} alt="Product Image"/>
+                    <img className="w-full h-full object-contain" src={`http://localhost:3000/${singleProduct?.productImageUrl}`} alt="Product Image"/>
                 </div>
                 <div className="flex -mx-2 mb-4">
                     {/* add to cart */}
@@ -55,7 +55,7 @@ const SingleProduct = () => {
                         <span className="text-gray-600 dark:text-gray-300">$ {singleProduct?.productPrice}</span>
                     </div>
                     <div>
-                        <span className="font-bold text-gray-700 dark:text-gray-300">Availability:</span>
+                        <span className="font-bold text-gray-700 dark:text-gray-300">Availability: </span>
                         <span className="text-gray-600 dark:text-gray-300">In Stock</span>
                     </div>
                 </div>

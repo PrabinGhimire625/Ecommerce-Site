@@ -5,32 +5,45 @@ import Product from "../database/models/product";
 import Category from "../database/models/category";
 import { model } from "mongoose";
 import User from "../database/models/userModel";
+import { Model } from "sequelize";
 
 class CartController{
     //add the product in the cart
-    async addToCart(req:AuthRequest,res:Response):Promise<void>{
-        const userId=req.user?.id  //authMiddleware bata auxa to find login user
-        //console.log("User ID:", userId); // Log user ID for debugging
-        const {quantity, productId}=req.body
-        if(!quantity || !productId){
-            res.status(404).json({message : "Please provide the quantity and productId"})
+    async addToCart(req: AuthRequest, res: Response): Promise<void> {
+        const userId = req.user?.id;  
+
+        const { quantity, productId } = req.body;
+    
+        if (!quantity || !productId) {
+            res.status(400).json({ message: "Please provide the quantity and productId" });  // Use 400 Bad Request for missing fields
+            return;  
         }
-        //check if the product already exists in the cart table or not for that user
-        let cartItem=await Cart.findOne({where:{productId,userId}})
-        if (cartItem){
-            cartItem.quantity+=quantity
-            await cartItem.save()  //compulsary
-        }else{
-            cartItem=await Cart.create({quantity,userId,productId})
-            const data=await Cart.findAll({
-                where:{
-                    userId
-                }
+    
+        try {
+
+            let cartItem = await Cart.findOne({ where: { productId, userId } });
+            if (cartItem) {
+                cartItem.quantity += quantity;
+                await cartItem.save();  
+            } else {
+
+                cartItem = await Cart.create({ quantity, userId, productId });
             }
-            )
-            res.status(200).json({message:"Product added to cart", data})
+
+            const data = await Cart.findAll({
+                where: { userId },
+                include: [{
+                    model: Product
+                }]
+            });
+    
+            res.status(200).json({ message: "Product added to cart", data });
+        } catch (error) {
+            console.error("Error adding product to cart:", error);
+            res.status(500).json({ message: "An error occurred while adding the product to the cart" });
         }
     }
+    
 
     async getCartItem(req:AuthRequest,res:Response):Promise<void>{
         const userId = req.user?.id

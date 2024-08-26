@@ -8,6 +8,8 @@ const API=axios.create({
     }
 })
 
+console.log(localStorage.getItem('token'))
+
 //use this api if the token is needed
 const APIAuthenticated = axios.create({
     baseURL : 'http://localhost:3000/',
@@ -15,7 +17,11 @@ const APIAuthenticated = axios.create({
         'Content-Type' : 'application/json',
         'Accept' : 'application/json',
         'Authorization' : `${localStorage.getItem('token')}`  //for the token
+        
     }
+
+
 })
+
 
 export {API, APIAuthenticated}

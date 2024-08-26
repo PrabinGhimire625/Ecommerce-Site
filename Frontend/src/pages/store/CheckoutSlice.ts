@@ -13,7 +13,6 @@ const initialState:OrderResponseData = {
     OrderDetails:[]
 }
 
-
 const orderSlice=createSlice({
     name:"order",
     initialState,

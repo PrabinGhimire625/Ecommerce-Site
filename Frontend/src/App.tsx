@@ -11,6 +11,7 @@ import Checkout from "./pages/checkout/Checkout"
 import MyOrders from "./pages/orders/MyOrders"
 import OrderDetails from "./pages/orders/OrderDetails"
 import Profile from "./pages/auth/profile/Profile"
+import Hero from "./pages/auth/home/components/Hero"
 function App() {
   return (
     <Provider store={store}>
@@ -18,6 +19,7 @@ function App() {
       <Navbar/>
         <Routes>
           <Route path='/' element={<Home/>}/>
+          <Route path='/hero' element={<Hero/>}/>
           <Route path='/register' element={<Register/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/profile' element={<Profile/>}/>

@@ -12,6 +12,5 @@ router.route("/users").get(authMiddleware.isAuthenticated,authMiddleware.restric
 router.route("/users/:id").get(authMiddleware.isAuthenticated,errorHandler(AuthController.fetchSingleUsers))
 .patch(authMiddleware.isAuthenticated,errorHandler(AuthController.updateUser))
 .delete(authMiddleware.isAuthenticated,errorHandler(AuthController.deleteUser))
+
 export default router
-
-

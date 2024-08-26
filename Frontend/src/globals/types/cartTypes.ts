@@ -3,7 +3,8 @@ import { Status } from "./types";
 
 export interface CartItem{
     Product:Product,
-    quantity:number
+    quantity:number,
+    productId:string
 }
 
 export interface CartState{

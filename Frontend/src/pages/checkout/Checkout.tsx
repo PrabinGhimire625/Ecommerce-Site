@@ -16,7 +16,7 @@ const Checkout = () => {
 
     //by default cod
     const [paymentMethod, setPaymentMethod]=useState<PaymentMethod>(PaymentMethod.COD)
-
+    console.log(paymentMethod)
     //for order 
     const [data,setData]=useState<OrderData>({
       phoneNumber: "",
@@ -65,7 +65,6 @@ const Checkout = () => {
         }
       })
       
-
      const orderData={
         ...data,
         items:itemDetails,

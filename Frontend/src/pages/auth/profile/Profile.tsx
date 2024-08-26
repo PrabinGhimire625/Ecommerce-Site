@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { deleteUser, fetchUserProfile, removeUserProfile } from '../../store/authSlice';
 import { useNavigate } from 'react-router-dom';
@@ -7,11 +7,12 @@ const Profile = () => {
     const dispatch = useAppDispatch();
     const navigate=useNavigate()
     const { userProfile, status } = useAppSelector((state) => state.auth);
-    console.log(userProfile?.id)
+    console.log(userProfile)
     
     useEffect(() => {
         dispatch(fetchUserProfile()); // Fetch user profile data when component mounts
-    }, [dispatch]);
+    }, [dispatch ]);
+
 
     const handleDeleteUser = (id: string | undefined) => {
         if (id) {

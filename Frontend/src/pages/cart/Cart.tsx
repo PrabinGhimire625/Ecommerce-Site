@@ -32,7 +32,7 @@ const Cart = () => {
        {/* iterate than display the cart items */}
         {
             items.length>0 && items.map((item)=>{
-              return(
+              return(   
         <div  className="justify-between mb-6 rounded-lg bg-white p-6 shadow-md sm:flex sm:justify-start">
         <img src={`http://localhost:3000/${item?.Product?.productImageUrl}`} alt="product-image" className="w-full rounded-lg sm:w-40" />
         <div className="sm:ml-4 sm:flex sm:w-full sm:justify-between">
