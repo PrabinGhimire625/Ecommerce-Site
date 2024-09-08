@@ -18,7 +18,6 @@ class CartController{
             res.status(400).json({ message: "Please provide the quantity and productId" });  // Use 400 Bad Request for missing fields
             return;  
         }
-    
         try {
 
             let cartItem = await Cart.findOne({ where: { productId, userId } });
@@ -60,7 +59,6 @@ class CartController{
             res.status(200).json({message:"Successfully get items in the cart of the login user",data:cartItem})
         }
     }
-
     
     async deleteCart(req:AuthRequest,res:Response):Promise<void>{
         const userId=req.user?.id

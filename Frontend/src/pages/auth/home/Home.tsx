@@ -17,9 +17,9 @@ console.log(product)
   return (
     <>
       <Hero/>
-      <div className='flex flex-wrap justify-center mt-5'>
       <h1 className='text-4xl font-bold text-center mb-6 text-gray-800'>Top products</h1>
-       <div className="flex flex-wrap justify-center gap-6">
+      <div className='flex flex-wrap justify-center mt-5'>
+       <div className="flex flex-wrap justify-center gap-24">
           
           {product.length>0 && product.map((pd)=>{
             return(

@@ -3,6 +3,7 @@ import BannerBackground from "../../../.././assets/home-banner-background.png";
 import slideshowimage2 from "../../../.././assets/slideshowimage2.png";
 import BannerImage from "../../../.././assets/home-banner-image.png";
 import { FiArrowRight } from "react-icons/fi";
+import "../../../../App.css"
 
 const Hero = () => {
     // const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -37,7 +38,7 @@ const Hero = () => {
                 </div>
             </div>
             <div className="relative p-4 mt-6">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center">
+                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center animate-marquee">
                     Free Delivery All Over Nepal: Contact Us at 9822924656
                 </h1>
             </div>

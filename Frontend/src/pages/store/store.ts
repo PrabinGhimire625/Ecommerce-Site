@@ -11,7 +11,6 @@ const store=configureStore({
         products:productSlice,
         carts:cartSlice,
         orders:CheckoutSlice
-
     }
 })
 

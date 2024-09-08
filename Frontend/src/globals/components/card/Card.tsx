@@ -14,7 +14,7 @@ const Card:React.FC <CardProps> = ({data}) => {
 	<div className="max-w-2xl mx-auto mt-3">
 	<div className="bg-white shadow-md rounded-lg max-w-sm dark:bg-gray-800 dark:border-gray-700">
 		<a href="#">
-			<img className="rounded-t-lg p-8 w-full h-64 object-cover" src={`http://localhost:3000/${data.productImageUrl}`} alt="product image"/>
+			<img src={`http://localhost:3000/${data.productImageUrl}`} className="rounded-t-lg p-8 w-full h-64 object-cover"  alt="product image"/>
         </a>
 			<div className="px-5 pb-5">
 				<a href="#">

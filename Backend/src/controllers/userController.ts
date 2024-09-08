@@ -32,7 +32,7 @@ class AuthController{
           res.status(403).json({ message: "Password is not valid" });
           return;
         }
-      
+
         // Generate token after the password matches
         const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY as string, { expiresIn: "20d" }); // Generate JWT token
       
@@ -49,7 +49,6 @@ class AuthController{
           }
         });
       }
-      
 
     //login method2 using the findOne() instead of findAll()
     // async loginUser(req: Request, res: Response): Promise<void> {
@@ -67,7 +66,6 @@ class AuthController{
     //         res.status(500).json({ message: "Internal server error" });
     //     }
     // }
-
 
       //fetch single users v.v.i
       public static async fetchUserProfile(req:AuthRequest, res:Response):Promise<void>{
