@@ -1,19 +1,23 @@
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
-import { setUserLogout } from '../../store/authSlice';
+import { setToken, setUserLogout } from '../../store/authSlice';
 import { Link, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 const Navbar = () => {
-  const {status,token}=useAppSelector((state)=>state.auth)
-  console.log(token)
+  const {status,user}=useAppSelector((state)=>state.auth)
+  console.log(user)
   const [isloggedIn, setIsLoggedIn]=useState<boolean>(false)
   const dispatch=useAppDispatch()
   const navigate=useNavigate()
   
+
   useEffect(()=>{
     const localStorageToken=localStorage.getItem('token')
-    setIsLoggedIn(!!localStorageToken || !! token)
-  },[token])
+    if(localStorageToken){
+      dispatch(setToken(localStorageToken))
+    }
+    setIsLoggedIn(!!localStorageToken || !! user.token)
+  },[user.token,dispatch])
 
   const handleLogout=()=>{
     localStorage.clear()

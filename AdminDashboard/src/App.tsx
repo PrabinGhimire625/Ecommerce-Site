@@ -14,6 +14,7 @@ import DefaultLayout from './layout/DefaultLayout';
 import store from './store/store';
 import EditProduct from './pages/Form/EditProduct';
 import Tables from './pages/Tables';
+import AddCategory from './pages/Form/AddCategory';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -62,6 +63,19 @@ function App() {
             <>
               <PageTitle title="Form addProduct | TailAdmin - Tailwind CSS Admin Dashboard Template" />
               <AddProduct />
+            </>
+            </DefaultLayout>
+            
+          }
+        />
+
+        <Route
+          path="/forms/addCategory"
+          element={
+            <DefaultLayout>
+            <>
+              <PageTitle title="Form addProduct | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <AddCategory />
             </>
             </DefaultLayout>
             

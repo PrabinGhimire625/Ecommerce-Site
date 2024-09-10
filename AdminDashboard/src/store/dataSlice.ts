@@ -1,13 +1,24 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import { InitialState, OrderData, User , Product} from "../types/data"
+import { InitialState, OrderData, User , Product, Category} from "../types/data"
 import { Status } from "../types/status"
 import { AppDispatch } from "./store"
 import { APIAuthenticated } from "../http"
+
+export interface AddProducts{
+      productName: string,
+      productDescription: string,
+      productPrice: number,
+      productTotalStockQty: number,
+      image: null,
+      categoryId:string
+  }
+
 
 const initialState:InitialState={
     products:[],
     users:[],
     orders:[],
+    category:[],
     status:Status.LOADING,
     singleProduct:null
 }
@@ -34,6 +45,11 @@ export interface DeleteUser{
     userId:string
 }
 
+export interface DeleteCategory{
+    categoryId:string
+}
+
+
 const dataSlice=createSlice({
     name:"data",
     initialState,
@@ -51,6 +67,9 @@ const dataSlice=createSlice({
         setProduct(state:InitialState, action:PayloadAction<Product[]>){
             state.products=action.payload
         },
+        setCategory(state:InitialState, action:PayloadAction<Category[]>){
+            state.category=action.payload
+        },
         setOrder(state:InitialState, action:PayloadAction<OrderData[]>){
             state.orders=action.payload
         },
@@ -61,6 +80,10 @@ const dataSlice=createSlice({
         setDeleteProduct(state:InitialState, action:PayloadAction<DeleteProduct>){
             const index=state.products.findIndex(item=>item.id=action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
             state.products.splice(index, 1)   // removes one item starting at the position index
+        },
+        setDeleteCategory(state:InitialState, action:PayloadAction<DeleteCategory>){
+            const index=state.category.findIndex(item=>item.id=action.payload.categoryId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
+            state.category.splice(index, 1)   // removes one item starting at the position index
         },
         setDeleteOrder(state:InitialState, action:PayloadAction<DeleteOrder>){
             const index=state.orders.findIndex(item=>item.id=action.payload.orderId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
@@ -82,7 +105,7 @@ const dataSlice=createSlice({
     }
 })
 
-export const {setStatus,setUser,setProduct,setOrder,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder}=dataSlice.actions
+export const {setStatus,setUser,setDeleteCategory,setCategory,setProduct,setOrder,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder}=dataSlice.actions
 export default dataSlice.reducer
 
 //fetch all users
@@ -144,11 +167,16 @@ export function fetchProduct(){
 
 
 //addProduct
-export function addProduct(data:Product){
+export function addProduct(data:AddProducts){
     return async function addProductThunk(dispatch:AppDispatch){
         dispatch(setStatus(Status.LOADING))
         try{
-            const response=await APIAuthenticated.post("/admin/product",data)
+            const response=await APIAuthenticated.post("/admin/product",data,{
+                headers:{
+                    'Content-Type':"multipart/form-data"
+                }
+            })
+            console.log(response)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
             }else{
@@ -159,6 +187,8 @@ export function addProduct(data:Product){
         }     
     }
 }
+
+
 
 export function deleteProduct(id:string){
     return async function deleteProductThunk(dispatch : AppDispatch){
@@ -234,6 +264,63 @@ export function deleteOrder(id:string){
     }
 }
 
+
+
+//add category
+export function addCategory(data:{categoryName:string}){
+    return async function addCategoryThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try{
+            const response=await APIAuthenticated.post("/admin/category",data)
+            console.log(response)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        }catch(err){
+            dispatch(setStatus(Status.ERROR))
+        }     
+    }
+}
+//fetch category
+export function fetchCategory(){
+    return async function fetchCategoryThunk(dispatch:AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try{
+            const respose=await APIAuthenticated.get("admin/category")
+            console.log(respose)
+            if(respose.status===200){
+                const {data} =respose.data
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setCategory(data))
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        }catch(err){
+            console.log(err)
+            dispatch(setStatus(Status.ERROR))
+        }        
+    }
+}
+
+//delete category
+export function deleteCategory(id:string){
+    return async function deleteCategoryThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.delete('/admin/category/' + id)
+            console.log(response)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))     
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
 
 
 

@@ -16,10 +16,6 @@ const Profile = () => {
     dispatch(fetchUserProfile())
   },[dispatch])
 
-
-
-
-
   return (
     <>
       <Breadcrumb pageName="Profile" />

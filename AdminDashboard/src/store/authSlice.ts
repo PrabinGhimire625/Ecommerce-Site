@@ -28,7 +28,6 @@ const initialState:Authstate={
     status:Status.LOADING,
     token: null,
     userProfile:null
-
 }
 
 const authSlice=createSlice({
@@ -46,6 +45,7 @@ const authSlice=createSlice({
         },
         setToken(state:Authstate, action:PayloadAction<string>){
             state.user.token=action.payload
+            console.log(state.user.token)
         },
         setUserProfile(state:Authstate,action:PayloadAction<User>){
             state.userProfile=action.payload 
@@ -74,9 +74,11 @@ export function login(data:LoginData){
             const response=await API.post("login",data)
             if(response.status===200){
                 const {data}=response.data
+                console.log(data)
                 dispatch(setStatus(Status.SUCCESS))
-                dispatch(setToken(data))  //store in the redux toolkit
-                localStorage.setItem('token',data)
+                dispatch(setToken(data.token))  //store in the redux toolkit
+                console.log(data.token)
+                localStorage.setItem('token',data.token)
             }else{
                 dispatch(setStatus(Status.ERROR))
             }

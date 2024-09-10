@@ -1,23 +1,28 @@
 import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import { APIAuthenticated } from "../../http";
-import { Product } from "../../types/data";
-import { addProduct } from "../../store/dataSlice";
+import { AddProducts, addProduct} from "../../store/dataSlice";
 import { useAppDispatch, useAppSelector } from "../../store/hooks";
 import { Status } from "../../types/status";
+import { useNavigate } from "react-router-dom";
 
 export interface Category{
   id: string,
   categoryName: string
 }
 
+
+
 const AddProduct = () => {
+  const navigate=useNavigate()
   const dispatch = useAppDispatch();
   const  {status} =useAppSelector((state)=>state.datas)
 
   const [category, setCategory] = useState<Category[]>([]);
 
+  //call this fethCategory in the useEffect
   const fetchCategory = async () => {
     const response = await APIAuthenticated.get("/admin/category");
+    console.log(response)
     if (response.status === 200) {
       setCategory(response.data.data);
     } else {
@@ -25,14 +30,12 @@ const AddProduct = () => {
     }
   };
 
-  const [productData, setProductData] = useState<Product>({
-    id: "",
+  const [productData, setProductData] = useState<AddProducts>({
     productName: "",
     productDescription: "",
     productPrice: 0,
     productTotalStockQty: 0,
-    productImageUrl: "",
-    userId: "",
+    image: null,
     categoryId: ""
   });
   
@@ -42,26 +45,28 @@ const AddProduct = () => {
     marginLeft: "50px",
     marginTop: "10px"
   };
+
+
   useEffect(() => {
     fetchCategory();
   },[]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
+    const { name, value, files } = e.target as HTMLInputElement
     setProductData({
       ...productData,
-      [name]: value
+      [name]:name=="image" ? files?.[0] : value
     });
   };
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     await dispatch(addProduct(productData));
-
     if (status === Status.SUCCESS) {
       alert("Successfully added the product");
+      navigate("/tables")
     } else {
-      setErrorMessage("Product is not added successfully");
+      setErrorMessage("Product is not added!");
     }
   };
   console.log(productData)
@@ -106,13 +111,17 @@ const AddProduct = () => {
                 <label htmlFor="productDescription" className="text-sm font-medium text-gray-900 block mb-2">Product Description</label>
                 <textarea onChange={handleChange} name="productDescription" id="productDescription" className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-4" placeholder="Details" required></textarea>
               </div>
+              <div className="col-span-6 sm:col-span-3">
+                <label htmlFor="image" className="text-sm font-medium text-gray-900 block mb-2">Image</label>
+                <input   onChange={handleChange}   type="file"   name="image"   id="image"   className="shadow-sm bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-cyan-600 focus:border-cyan-600 block w-full p-2.5"   required  />
+              </div>
+
             </div>
 
             <div className="p-6 rounded-b">
               <button type="submit" className="text-white bg-cyan-600 hover:bg-cyan-700 focus:ring-4 focus:ring-cyan-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center">Add Product</button>
             </div>
             {errorMessage && <p className="error-message" style={errorMessageStyle}>{errorMessage}</p>}
-            
           </form>
         </div>
       </div>

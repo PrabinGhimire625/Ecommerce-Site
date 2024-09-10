@@ -65,12 +65,16 @@ export interface OrderData{
     orderStatus:OrderStatus
 }
 
-
+export interface CategoryData{
+    id:string,
+    categoryName:string
+}
 //main initialstate
 export interface InitialState{
     products:Product[],
     users:User[],
     orders: OrderData[],
+    category:CategoryData[],
     status:Status,
     singleProduct:Product | null
 }
