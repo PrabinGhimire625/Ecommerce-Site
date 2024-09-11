@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../pages/store/hooks' 
 import { Link, useNavigate } from 'react-router-dom'
 import { fetchCartItem } from '../../../pages/store/cartSlice'
+import { setToken } from '../../../pages/store/authSlice'
 
 const Navbar = () => {
   const navigate=useNavigate()
@@ -16,6 +17,10 @@ const Navbar = () => {
   useEffect(() => {
     const localStorageToken = localStorage.getItem('token');
     console.log(localStorageToken)
+    console.log(token)
+    if(localStorageToken){
+      dispatch(setToken(localStorageToken))
+    }
     setIsLoggedIn(!!localStorageToken || !!token);
     dispatch(fetchCartItem());
   }, [token]);

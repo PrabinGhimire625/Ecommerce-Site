@@ -1,5 +1,5 @@
 import {createSlice, PayloadAction} from "@reduxjs/toolkit"
-import { InitialState, OrderData, User , Product, Category} from "../types/data"
+import { InitialState, OrderData, User , Product, Category, SingleOrder} from "../types/data"
 import { Status } from "../types/status"
 import { AppDispatch } from "./store"
 import { APIAuthenticated } from "../http"
@@ -20,7 +20,9 @@ const initialState:InitialState={
     orders:[],
     category:[],
     status:Status.LOADING,
-    singleProduct:null
+    singleProduct:null,
+    singleCategory:null,
+    singleOrder:[]
 }
 
 export interface DeleteProduct{
@@ -47,6 +49,10 @@ export interface DeleteUser{
 
 export interface DeleteCategory{
     categoryId:string
+}
+
+export interface UpdateCategory{
+    categoryName:string
 }
 
 
@@ -76,6 +82,14 @@ const dataSlice=createSlice({
         setSingleProduct(state:InitialState, action:PayloadAction<Product>){
             state.singleProduct=action.payload
         },
+
+        setSingleOrder(state:InitialState,action:PayloadAction<SingleOrder[]>){
+            state.singleOrder=action.payload
+        },
+        setSingleCategory(state:InitialState, action:PayloadAction<Category>){
+            state.singleCategory=action.payload
+        },
+       
         //items array bata tyo particular cart item hatauna  //refresh garipaxi matra delete huna problem fixed garxa state bata pani deete garxa
         setDeleteProduct(state:InitialState, action:PayloadAction<DeleteProduct>){
             const index=state.products.findIndex(item=>item.id=action.payload.productId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
@@ -89,6 +103,9 @@ const dataSlice=createSlice({
             const index=state.orders.findIndex(item=>item.id=action.payload.orderId) // find the index of an item in an array (state.items) where the product.id matches the productId provided in the action.payload.
             state.orders.splice(index, 1)   // removes one item starting at the position index
         },
+           // setOrderStatus(state:InititalState,action:PayloadAction<{id:string,status:string}>){
+        //     state.singleOrder
+        // },
         setUpdateProduct(state: InitialState, action: PayloadAction<UpdateProduct>){
             const index = state.products.findIndex(item => item.id === action.payload.productId);
             if (index !== -1) {
@@ -101,11 +118,21 @@ const dataSlice=createSlice({
                 productImageUrl: action.payload.productImageUrl
               };
             }
-          }
+        },
+        setUpdateCategory(state: InitialState, action: PayloadAction<{ id: string, categoryName: string }>) {
+            const index = state.category.findIndex(item => item.id === action.payload.id);
+            if (index !== -1) {
+                state.category[index] = {
+                    ...state.category[index],
+                    categoryName: action.payload.categoryName
+                };
+            }
+        }
+        
     }
 })
 
-export const {setStatus,setUser,setDeleteCategory,setCategory,setProduct,setOrder,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder}=dataSlice.actions
+export const {setStatus,setSingleOrder,setUser,setUpdateCategory,setSingleCategory,setDeleteCategory,setCategory,setProduct,setOrder,setSingleProduct,setDeleteProduct,setDeleteUser,setDeleteOrder}=dataSlice.actions
 export default dataSlice.reducer
 
 //fetch all users
@@ -265,6 +292,24 @@ export function deleteOrder(id:string){
 }
 
 
+export function fetchSingleOrder(id:string){
+    return async function fetchSingleOrder(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.get('/order/customer/' + id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setSingleOrder(response.data.data)) 
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
+
 
 //add category
 export function addCategory(data:{categoryName:string}){
@@ -304,6 +349,26 @@ export function fetchCategory(){
     }
 }
 
+
+//fetch  single category
+
+export function fetchSingleCategory(id:string){
+    return async function fetchSingleCategoryThunk(dispatch : AppDispatch){
+        dispatch(setStatus(Status.LOADING))
+        try {
+            const response = await APIAuthenticated.get('/admin/category/' + id)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setSingleCategory(response.data.data)) 
+            }else{
+                dispatch(setStatus(Status.ERROR))
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+        }
+    }
+}
+
 //delete category
 export function deleteCategory(id:string){
     return async function deleteCategoryThunk(dispatch : AppDispatch){
@@ -323,6 +388,40 @@ export function deleteCategory(id:string){
 }
 
 
+//update category
+export function updateCategory(data: UpdateCategory, id: string) {
+    return async function updateCategoryThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.patch(`/admin/category/${id}`, data);
+            if (response.status === 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setUpdateCategory({ id, categoryName: data.categoryName })); // dispatch action to update state
+            } else {
+                dispatch(setStatus(Status.ERROR));
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR));
+        }
+    };
+}
+
+// export function handleOrderStatus(status:string,id:string){
+//     return async function handleOrderStatusThunk(dispatch : AppDispatch){
+//         dispatch(setStatus(Status.LOADING))
+//         try {
+//             const response = await APIAuthenticated.get('/order/admin/' + id)
+//             if(response.status === 200){
+//                 dispatch(setStatus(Status.SUCCESS))
+//                 dispatch(setOrderStatus({id,status}))
+//             }else{
+//                 dispatch(setStatus(Status.ERROR))
+//             }
+//         } catch (error) {
+//             dispatch(setStatus(Status.ERROR))
+//         }
+//     }
+// }
 
 
 

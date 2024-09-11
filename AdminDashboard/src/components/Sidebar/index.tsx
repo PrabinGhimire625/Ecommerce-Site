@@ -400,7 +400,7 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
                       </clipPath>
                     </defs>
                   </svg>
-                  Manage datas
+                  Tables
                 </NavLink>
               </li>
               {/* <!-- Menu Item Tables --> */}

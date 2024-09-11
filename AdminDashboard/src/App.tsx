@@ -15,6 +15,8 @@ import store from './store/store';
 import EditProduct from './pages/Form/EditProduct';
 import Tables from './pages/Tables';
 import AddCategory from './pages/Form/AddCategory';
+import UpdateCategory from './pages/Form/Update/UpdateCategory';
+import SingleOrder from './pages/singleOrder/SingleOrder';
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -82,6 +84,20 @@ function App() {
           }
         />
 
+
+        <Route
+          path="/forms/updateCategory/:id"
+          element={
+            <DefaultLayout>
+            <>
+              <PageTitle title="Form addProduct | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <UpdateCategory />
+            </>
+            </DefaultLayout>
+          }
+        />
+
+
          <Route
           path="/forms/editProduct"
           element={
@@ -104,6 +120,22 @@ function App() {
             </DefaultLayout>
           }
         />
+
+
+          <Route
+          path="/order/:id"
+          element={
+            <DefaultLayout>
+            <>
+              <PageTitle title="Tables | TailAdmin - Tailwind CSS Admin Dashboard Template" />
+              <SingleOrder />
+            </>
+            </DefaultLayout>
+          }
+        />
+
+
+
         <Route
           path="/settings"
           element={

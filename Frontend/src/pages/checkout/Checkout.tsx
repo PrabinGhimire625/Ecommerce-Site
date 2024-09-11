@@ -141,7 +141,6 @@ const Checkout = () => {
                   </div>
                 </form>
                 {/* end payment method */}
-
           </div>
         {/* submit form to place the order*/}
       <form onSubmit={handleSubmit}>

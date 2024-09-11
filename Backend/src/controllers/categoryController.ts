@@ -3,7 +3,6 @@ import Category from "../database/models/category";
 import  {Request, Response} from "express"
 
 class categoryController{
-
     categoryData=[
         {categoryName: "Electronics"},
         {categoryName: "Groceries"},
@@ -37,6 +36,13 @@ class categoryController{
     //get category
     async getCategory(req:Request,res:Response):Promise<void>{
         const category=await Category.findAll()
+        res.status(200).json({message:"Category is successfully get", data:category})
+    }
+
+        //get category
+    async fetchSingleCategory(req:Request,res:Response):Promise<void>{
+        const id=req.params.id
+        const category=await Category.findOne({where:{id:id}})
         res.status(200).json({message:"Category is successfully get", data:category})
     }
 

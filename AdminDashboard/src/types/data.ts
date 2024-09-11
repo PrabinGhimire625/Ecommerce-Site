@@ -69,6 +69,37 @@ export interface CategoryData{
     id:string,
     categoryName:string
 }
+
+export interface SingleOrder{
+    id: string,
+    quantity: number,
+    orderId: string,
+    createdAt : string,
+    Product: {
+        id: string,
+        productName: string,
+        productPrice: number,
+        productTotalStockQty: number,
+        productImageUrl: string,
+        categoryId:string,
+        Category: {
+            categoryName ? : string
+        }
+    },
+    Order: {
+        id:string,
+        phoneNumber: string,
+        shippingAddress: string,
+        totalAmount: number,
+        orderStatus: OrderStatus,
+        Payment: {
+            paymentMethod: string,
+            paymentStatus: string
+        },
+
+    }
+}
+
 //main initialstate
 export interface InitialState{
     products:Product[],
@@ -76,7 +107,8 @@ export interface InitialState{
     orders: OrderData[],
     category:CategoryData[],
     status:Status,
-    singleProduct:Product | null
+    singleProduct:Product | null,
+    singleCategory:Category | null,
+    singleOrder: SingleOrder[]
 }
-
 
