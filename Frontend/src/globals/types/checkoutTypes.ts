@@ -80,7 +80,7 @@ export interface MyOrdersData{
     orderStatus: OrderStatus,
     createdAt: string,
     paymentId: string,
-    userId: UserData,
+    User: UserData,
     Payment : OrderPaymentData
 }
 

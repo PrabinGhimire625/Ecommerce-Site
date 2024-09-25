@@ -16,10 +16,10 @@ console.log(product)
 
   return (
     <>
-      <Hero/>
-      <h1 className='text-4xl font-bold text-center mb-6 text-gray-800'>Top products</h1>
+  
+      {/* <h1 className='text-4xl font-bold text-center mb-6 text-gray-800'>Top products</h1> */}
       <div className='flex flex-wrap justify-center mt-5'>
-       <div className="flex flex-wrap justify-center gap-24">
+       <div className="flex flex-wrap justify-center gap-16">
           
           {product.length>0 && product.map((pd)=>{
             return(

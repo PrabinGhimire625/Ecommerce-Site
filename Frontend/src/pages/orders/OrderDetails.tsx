@@ -11,7 +11,6 @@ const OrderDetails = () => {
   console.log(id)
   const dispatch=useAppDispatch();
 
-
   useEffect(()=>{
     if(id){
       dispatch(fetchMyOrderDetails(id))
@@ -28,8 +27,7 @@ const OrderDetails = () => {
         <div className="flex flex-col justify-start items-start w-full space-y-4 md:space-y-6 xl:space-y-8">
           <div className="flex flex-col justify-start items-start dark:bg-gray-800 bg-gray-50 px-4 py-4 md:py-6 md:p-6 xl:p-8 w-full">
             <p className="text-lg md:text-xl dark:text-white font-semibold leading-6 xl:leading-5 text-gray-800">My Order</p>
-
-       
+           
            {
             OrderDetails.length>0 && OrderDetails.map((order)=>{
               return(
@@ -49,11 +47,8 @@ const OrderDetails = () => {
                   </div>
                 </div>
               </div>
-  
-
               )
             })
-
            }
 
 

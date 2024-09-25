@@ -7,6 +7,7 @@ import Cart from "./models/cart";
 import Order from "./models/order";
 import OrderDetail from "./models/OrderDetail";
 import Payment from "./models/payment";
+import ProductReview from "./models/productReview";
 dotenv.config()
 
 const sequelize=new Sequelize({
@@ -65,5 +66,14 @@ Order.belongsTo(Payment,{foreignKey:'paymentId'})
 //order-user relation 
 User.hasMany(Order,{foreignKey : 'userId'})
 Order.belongsTo(User,{foreignKey : 'userId'})
+
+//relationship between the 
+User.hasMany(ProductReview,{foreignKey : 'userId'})
+ProductReview.belongsTo(User,{foreignKey : 'userId'})
+
+// orderdetail-product relation 
+Product.hasMany(ProductReview,{foreignKey:'productId'})
+ProductReview.belongsTo(Product,{foreignKey:'productId'})
+
 
 export default sequelize

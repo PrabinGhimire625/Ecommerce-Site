@@ -34,6 +34,11 @@ export interface DeleteUser{
     userId:string
 }
 
+export interface UpdateUser{
+    username:string,
+    email:string
+}
+
 const initialState:Authstate={
     user:{} as User,
     status:Status.LOADING,
@@ -71,11 +76,22 @@ const authSlice=createSlice({
         },
         removeUserProfile(state: Authstate) {
             state.userProfile = null;
+        },
+        setUpdateUser(state: Authstate, action: PayloadAction<{ id: string, username: string, email: string }>) {
+            if (state.user && state.user.id === action.payload.id) {
+                state.user = {
+                    ...state.user,
+                    username: action.payload.username,  // Update username
+                    email: action.payload.email         // Update email if needed
+                };
+            }
         }
+        
+        
     }
 })
 
-export const  {setUser,setStatus,resetStatus,setToken,setUserProfile,setSingleUser,removeUserProfile} =authSlice.actions  
+export const  {setUser,setUpdateUser,setStatus,resetStatus,setToken,setUserProfile,setSingleUser,removeUserProfile} =authSlice.actions  
 export default authSlice.reducer  //now go to the store
 
 //registers
@@ -181,6 +197,27 @@ export function deleteUser(id:string){
         }
     }
 }
+
+//update user
+// update user
+export function updateUser(data: UpdateUser, id: string) {
+    return async function updateUserThunk(dispatch: AppDispatch) {
+        dispatch(setStatus(Status.LOADING));
+        try {
+            const response = await APIAuthenticated.patch(`/users/${id}`, data);
+            if (response.status === 200) {
+                dispatch(setStatus(Status.SUCCESS));
+                dispatch(setUpdateUser({ id, ...data })); // Dispatch action to update state with id and updated data
+            } else {
+                dispatch(setStatus(Status.ERROR));
+            }
+        } catch (error) {
+            dispatch(setStatus(Status.ERROR));
+        }
+    };
+}
+
+
 
 
 

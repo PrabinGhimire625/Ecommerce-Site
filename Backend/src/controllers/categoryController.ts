@@ -5,9 +5,9 @@ import  {Request, Response} from "express"
 class categoryController{
     categoryData=[
         {categoryName: "Electronics"},
-        {categoryName: "Groceries"},
-        {categoryName: "Food/Beverages"},
-        {categoryName: "Communication"},
+        {categoryName: "Fashion"},
+        {categoryName: "Beauty & Health"},
+        {categoryName: "Sports & Outdoors"},
     ]
     //categorySeeder
     async seedCategory():Promise<void>{
@@ -39,7 +39,7 @@ class categoryController{
         res.status(200).json({message:"Category is successfully get", data:category})
     }
 
-        //get category
+    //get category
     async fetchSingleCategory(req:Request,res:Response):Promise<void>{
         const id=req.params.id
         const category=await Category.findOne({where:{id:id}})

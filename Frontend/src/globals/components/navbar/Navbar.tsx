@@ -11,6 +11,7 @@ const Navbar = () => {
   const {token}=useAppSelector((state)=>state.auth) //"auth" store ko reducer bhitra bata ayo  //check status
   const {items}=useAppSelector((state)=>state.carts)
   const [isLoggedIn, setIsLoggedIn]=useState<boolean>(false)
+  const [dropdownOpen, setDropdownOpen] = useState(false); //for profile dropdown
   console.log(isLoggedIn)
   //frist use this and then only data comes on  const {items}=useAppSelector((state)=>state.carts)
   //useEffect tigger when the changes in the user token
@@ -35,40 +36,43 @@ const Navbar = () => {
     return (
    <>
         <header className='shadow-md font-[sans-serif] tracking-wide relative z-50'>
-          <section className='md:flex lg:items-center relative py-3 lg:px-10 px-4 border-gray-200 border-b bg-white lg:min-h-[80px] max-lg:min-h-[60px]'>
-            <a href="javascript:void(0)" className="max-sm:w-full max-sm:mb-3 shrink-0"><img
-                src="https://readymadeui.com/readymadeui.svg" alt="logo" className='w-[160px]' />
-            </a>
+          <section className='md:flex lg:items-center relative py-3 lg:px-10 px-4 border-gray-200 border-b bg-gray-800 lg:min-h-[80px] max-lg:min-h-[60px]'>
+            <Link to='/' className="max-sm:w-full max-sm:mb-3 shrink-0 ">
+            <img className="w-8 h-8 mr-2" src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/logo.svg" alt="logo"/>
+              
+            </Link>
 
             <div className='flex flex-wrap w-full items-center'>
               <input type='text' placeholder='Search something...'
-                className='xl:w-96 max-lg:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4 bg-gray-100 focus:bg-transparent px-6 rounded h-11 outline-[#333] text-sm transition-all' />
+                className='xl:w-96 max-lg:w-full lg:ml-10 max-md:mt-4 max-lg:ml-4 bg-white  px-6 rounded h-11 outline-[#333] text-sm transition-all' />
               <div className="ml-auto max-lg:mt-4">
 
                 <ul className='flex items-center'>
-                  <li className='max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium text-[#333] cursor-pointer'>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="mr-2" viewBox="0 0 24 24">
-                      <g data-name="Layer 2">
-                        <path
-                          d="M14.5 12.75A3.22 3.22 0 0 1 12 11.6a3.27 3.27 0 0 1-2.5 1.15A3.22 3.22 0 0 1 7 11.6a2.91 2.91 0 0 1-.3.31 3.22 3.22 0 0 1-2.51.82 3.35 3.35 0 0 1-2.94-3.37v-.71a4.76 4.76 0 0 1 .24-1.5l1.57-4.7a1.75 1.75 0 0 1 1.66-1.2h14.56a1.75 1.75 0 0 1 1.66 1.2l1.57 4.7a4.76 4.76 0 0 1 .24 1.5v.71a3.35 3.35 0 0 1-2.92 3.37 3.2 3.2 0 0 1-2.51-.82c-.11-.1-.22-.22-.32-.33a3.28 3.28 0 0 1-2.5 1.17zm-9.78-10a.26.26 0 0 0-.24.17l-1.56 4.7a3.27 3.27 0 0 0-.17 1v.71a1.84 1.84 0 0 0 1.57 1.88A1.75 1.75 0 0 0 6.25 9.5a.75.75 0 0 1 1.5 0 1.67 1.67 0 0 0 1.75 1.75 1.76 1.76 0 0 0 1.75-1.75.75.75 0 0 1 1.5 0 1.67 1.67 0 0 0 1.75 1.75 1.76 1.76 0 0 0 1.75-1.75.75.75 0 0 1 1.5 0 1.75 1.75 0 0 0 1.93 1.74 1.84 1.84 0 0 0 1.57-1.88v-.71a3.27 3.27 0 0 0-.17-1l-1.56-4.7a.26.26 0 0 0-.24-.17z"
-                          data-original="#000000" />
-                        <path
-                          d="M20 22.75H4A1.76 1.76 0 0 1 2.25 21v-9.52a.75.75 0 0 1 1.5 0V21a.25.25 0 0 0 .25.25h16a.25.25 0 0 0 .25-.25v-9.53a.75.75 0 1 1 1.5 0V21A1.76 1.76 0 0 1 20 22.75z"
-                          data-original="#000000" />
-                        <path
-                          d="M15.5 22.75h-7a.76.76 0 0 1-.75-.75v-5a1.76 1.76 0 0 1 1.75-1.75h5A1.76 1.76 0 0 1 16.25 17v5a.76.76 0 0 1-.75.75zm-6.25-1.5h5.5V17a.25.25 0 0 0-.25-.25h-5a.25.25 0 0 0-.25.25z"
-                          data-original="#000000" />
-                      </g>
-                    </svg>
+                  <li className='max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium text-white cursor-pointer hover:font-bold'>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="mr-2" viewBox="0 0 24 24">
+                            <g data-name="Layer 2">
+                                <path
+                                  d="M14.5 12.75A3.22 3.22 0 0 1 12 11.6a3.27 3.27 0 0 1-2.5 1.15A3.22 3.22 0 0 1 7 11.6a2.91 2.91 0 0 1-.3.31 3.22 3.22 0 0 1-2.51.82 3.35 3.35 0 0 1-2.94-3.37v-.71a4.76 4.76 0 0 1 .24-1.5l1.57-4.7a1.75 1.75 0 0 1 1.66-1.2h14.56a1.75 1.75 0 0 1 1.66 1.2l1.57 4.7a4.76 4.76 0 0 1 .24 1.5v.71a3.35 3.35 0 0 1-2.92 3.37 3.2 3.2 0 0 1-2.51-.82c-.11-.1-.22-.22-.32-.33a3.28 3.28 0 0 1-2.5 1.17zm-9.78-10a.26.26 0 0 0-.24.17l-1.56 4.7a3.27 3.27 0 0 0-.17 1v.71a1.84 1.84 0 0 0 1.57 1.88A1.75 1.75 0 0 0 6.25 9.5a.75.75 0 0 1 1.5 0 1.67 1.67 0 0 0 1.75 1.75 1.76 1.76 0 0 0 1.75-1.75.75.75 0 0 1 1.5 0 1.67 1.67 0 0 0 1.75 1.75 1.76 1.76 0 0 0 1.75-1.75.75.75 0 0 1 1.5 0 1.75 1.75 0 0 0 1.93 1.74 1.84 1.84 0 0 0 1.57-1.88v-.71a3.27 3.27 0 0 0-.17-1l-1.56-4.7a.26.26 0 0 0-.24-.17z"
+                                  fill="#ffffff" />
+                                <path
+                                  d="M20 22.75H4A1.76 1.76 0 0 1 2.25 21v-9.52a.75.75 0 0 1 1.5 0V21a.25.25 0 0 0 .25.25h16a.25.25 0 0 0 .25-.25v-9.53a.75.75 0 1 1 1.5 0V21A1.76 1.76 0 0 1 20 22.75z"
+                                  fill="#ffffff" />
+                                <path
+                                  d="M15.5 22.75h-7a.76.76 0 0 1-.75-.75v-5a1.76 1.76 0 0 1 1.75-1.75h5A1.76 1.76 0 0 1 16.25 17v5a.76.76 0 0 1-.75.75zm-6.25-1.5h5.5V17a.25.25 0 0 0-.25-.25h-5a.25.25 0 0 0-.25.25z"
+                                  fill="#ffffff" />
+                            </g>
+                        </svg>
                     Stores and Services
                   </li>
-                  <li className='max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium text-[#333] cursor-pointer'>
+
+                
+                  <li className='max-sm:hidden flex text-[15px] max-lg:py-2 px-3 font-medium  text-white cursor-pointer hover:font-bold'>
                     <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="mr-2" viewBox="0 0 512 511">
                       <path
                         d="M497 193.3h-40.168c-1.215 0-2.418.052-3.613.13-9.024-8.051-19.004-14.7-29.68-19.82 24.348-17.294 40.262-45.712 40.262-77.778C463.8 43.266 421.035.5 368.469.5c-52.57 0-95.336 42.766-95.336 95.332 0 25.262 9.883 48.258 25.976 65.332h-70.148c16.094-17.074 25.973-40.07 25.973-65.332C254.934 43.266 212.168.5 159.602.5c-52.567 0-95.336 42.766-95.336 95.332 0 29.48 13.453 55.875 34.539 73.379-14.602 5.457-28.149 13.617-40.028 24.219a55.211 55.211 0 0 0-3.609-.13H15c-8.285 0-15 6.716-15 15v80.333c0 8.285 6.715 15 15 15h1.066v113.535c0 8.281 6.715 15 15 15h449.868c8.285 0 15-6.719 15-15V303.633H497c8.285 0 15-6.715 15-15V208.3c0-8.285-6.715-15-15-15zm-15 80.333h-25.168c-13.875 0-25.168-11.29-25.168-25.168 0-13.875 11.293-25.164 25.168-25.164H482zM303.133 95.832c0-36.023 29.308-65.332 65.332-65.332 36.023 0 65.336 29.309 65.336 65.332 0 36.027-29.309 65.332-65.332 65.332-36.028 0-65.336-29.305-65.336-65.332zM159.602 30.5c36.023 0 65.332 29.309 65.332 65.332 0 36.023-29.309 65.332-65.332 65.332-36.028 0-65.336-29.305-65.336-65.332 0-36.023 29.308-65.332 65.336-65.332zM30 223.3h25.168c13.875 0 25.168 11.29 25.168 25.169 0 13.875-11.293 25.164-25.168 25.164H30zm16.066 80.333h9.102c30.418 0 55.168-24.746 55.168-55.168 0-16.844-7.602-31.942-19.54-42.067h.356c15.504-9.918 33.535-15.23 52.383-15.23h142.887C258.664 214.566 241 249.574 241 288.633v113.535H110.332v-65.336c0-8.281-6.715-15-15-15-8.281 0-15 6.719-15 15v65.332H46.066zm419.868 98.531h-34.27v-65.332c0-8.281-6.715-15-15-15-8.281 0-15 6.719-15 15v65.332H271V288.633c0-53.742 43.723-97.465 97.469-97.465 18.933 0 37.039 5.36 52.582 15.36-11.852 10.128-19.383 25.163-19.383 41.94 0 30.419 24.746 55.165 55.168 55.165h9.098zm0 0"
-                        data-original="#000000" />
+                        data-original="#000000"  fill="#ffffff" />
                     </svg>
-                    Communty
+                    Community
                   </li>
 
 
@@ -79,7 +83,7 @@ const Navbar = () => {
                           <svg xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" className="inline" viewBox="0 0 512 512">
                             <path
                               d="M164.96 300.004h.024c.02 0 .04-.004.059-.004H437a15.003 15.003 0 0 0 14.422-10.879l60-210a15.003 15.003 0 0 0-2.445-13.152A15.006 15.006 0 0 0 497 60H130.367l-10.722-48.254A15.003 15.003 0 0 0 105 0H15C6.715 0 0 6.715 0 15s6.715 15 15 15h77.969c1.898 8.55 51.312 230.918 54.156 243.71C131.184 280.64 120 296.536 120 315c0 24.812 20.188 45 45 45h272c8.285 0 15-6.715 15-15s-6.715-15-15-15H165c-8.27 0-15-6.73-15-15 0-8.258 6.707-14.977 14.96-14.996zM477.114 90l-51.43 180H177.032l-40-180zM150 405c0 24.813 20.188 45 45 45s45-20.188 45-45-20.188-45-45-45-45 20.188-45 45zm45-15c8.27 0 15 6.73 15 15s-6.73 15-15 15-15-6.73-15-15 6.73-15 15-15zm167 15c0 24.813 20.188 45 45 45s45-20.188 45-45-20.188-45-45-45-45 20.188-45 45zm45-15c8.27 0 15 6.73 15 15s-6.73 15-15 15-15-6.73-15-15 6.73-15 15-15zm0 0"
-                              data-original="#000000"
+                              data-original="#000000" fill="#ffffff"
                             ></path>
                           </svg>
                           <span
@@ -95,24 +99,63 @@ const Navbar = () => {
                     {
                       !isLoggedIn ? (
                         <>
-                                           <button className='px-4 py-2 text-sm rounded font-semibold text-white bg-blue-500'>Login</button>
+                          <Link to="/login" className='px-4 py-2 text-sm rounded font-semibold text-white bg-blue-500'>Login</Link>
                         </>
                       ):(
                        <>
-                        <button onClick={handleLogout} className='px-4 py-2 text-sm rounded font-semibold text-white bg-red-500'>Logout</button>
-                        <Link to='/profile'>
-                        <li className='flex text-[15px] max-lg:py-2 px-3 hover:text-[#007bff] hover:fill-[#007bff]'>
-                            <button  className='px-4 py-2 text-sm rounded font-semibold text-[#333] border-2 border-[#333] bg-transparent'>Profile</button>
-                        </li>
-                        
-                        </Link>
+                       
+                     
+                       {/* profile */}
+                       <div className="relative" onMouseLeave={() => setDropdownOpen(false)}>
+                          <button type="button" className="relative flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800" onClick={() => setDropdownOpen(!dropdownOpen)} onMouseEnter={() => setDropdownOpen(true)}>
+                            <span className="sr-only">Open user menu</span>
+                            <img className="h-8 w-8 rounded-full" src="https://randomuser.me/api/portraits/men/94.jpg" alt="Profile" />
+                          </button>
+                          
+                          <ul id="dropdownMenu" className={` absolute right-0 block shadow-lg bg-white py-2 z-[1000] min-w-full w-max rounded-lg max-h-96 overflow-auto ${dropdownOpen ? 'block' : 'hidden'}`}>
+
+                            <li className="  hover:text-red-700 py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 12a4 4 0 100-8 4 4 0 000 8zm0 4a8 8 0 00-8 8v1h16v-1a8 8 0 00-8-8z"/>
+                              </svg>
+                              <Link to="/profile">Manage My Account</Link>
+                            </li>
+
+                            <li className="hover:text-red-700  py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 10h16M4 14h16M4 18h16"/>
+                              </svg>
+                              <Link to="/orderHistory">My Orders</Link>
+                            </li>
+
+                            <li className="hover:text-red-700 py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4-4m0 0l4 4m-4-4v12"/>
+                              </svg>
+                              <Link to="/reviews">My Reviews</Link>
+                            </li>
+
+                            <li className="hover:text-red-700 py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 12l-7 7-7-7 7-7 7 7z"/>
+                              </svg>
+                              <Link to="/returns">My Returns and Cancellations</Link>
+                            </li>
+
+                            <li className="hover:text-red-700 py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">
+                            <svg fill="none" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" stroke="currentColor" className="w-3 h-3 mr-3">
+                              <path d="M17 16l4-4m0 0l-4-4m4 4H3"/>
+                            </svg>
+                             {/* <button onClick={handleLogout} className='px-4 py-2 text-sm rounded font-semibold text-white bg-red-500'>Logout</button>
+                        */}
+                            <button onClick={handleLogout} >Logout</button>
+                          </li>
+                        </ul>
+                        </div>
                        </>
                       )
                     }
                   </li>
-
-                
-
 
                   <li id="toggleOpen" className='lg:hidden'>
                     <button>
@@ -143,7 +186,7 @@ const Navbar = () => {
             </button>
 
             <ul
-              className='lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-[#333] min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
+              className='lg:flex lg:flex-wrap lg:items-center lg:justify-center px-10 py-3 bg-gray-900 min-h-[46px] gap-4 max-lg:space-y-4 max-lg:fixed max-lg:w-1/2 max-lg:min-w-[300px] max-lg:top-0 max-lg:left-0 max-lg:p-6 max-lg:h-full max-lg:shadow-md max-lg:overflow-auto z-50'>
               <li className='mb-6 hidden max-lg:block'>
                 <a href="javascript:void(0)"><img src="https://readymadeui.com/readymadeui-white.svg" alt="logo" className='w-36' />
                 </a>
@@ -151,21 +194,17 @@ const Navbar = () => {
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
                   className='hover:text-yellow-300 text-yellow-300 text-[15px] font-medium block'>New</a></li>
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Brands</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>sell</a></li>
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Makeup</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>brand</a></li>            
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Hair</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Return & Orders</a></li>
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Tools & Brushes</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Todays deal</a></li>
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Bath & body</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Help & support </a></li>
               <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Clean Body</a></li>
-              <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Gifts</a></li>
-              <li className='max-lg:border-b max-lg:py-3 px-3'><a href='javascript:void(0)'
-                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>Skincare</a></li>
+                  className='hover:text-yellow-300 text-white text-[15px] font-medium block'>About</a></li>
             </ul>
           </div>
         </header>

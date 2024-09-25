@@ -32,7 +32,7 @@ const Form:React.FC<Props> = ({type,onSubmit}) => {
       >
         {/* Page Content */}
         <main id="page-content" className="flex max-w-full flex-auto flex-col">
-          <div className="relative mx-auto flex min-h-dvh w-full max-w-10xl items-center justify-center overflow-hidden p-4 lg:p-8">
+          <div className="relative mx-auto flex min-h-dvh w-full max-w-10xl  justify-center overflow-hidden p-4 lg:p-8">
             {/* Sign In Section */}
             <section className="w-full max-w-xl py-6">
 

@@ -15,6 +15,7 @@ const MyOrders = () => {
     dispatch(fetchMyOrder())
   },[])
 
+
   // most usefull code for the searching
   const filterOrders = myOrders.filter((order) => selectedItem === OrderStatus.All || order.orderStatus === selectedItem)  //filter throught the dropdown orderstatus
   .filter((order) =>   //main search 
