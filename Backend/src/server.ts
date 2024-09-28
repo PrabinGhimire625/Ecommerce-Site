@@ -1,7 +1,7 @@
 import  express,{Application,Request,Response} from "express"
 const app:Application=express()
 import './database/connection'  //for database always import
-import categoryController from "./controllers/categoryController"
+//import categoryController from "./controllers/categoryController"
 import dotenv from "dotenv"
 dotenv.config()
 const port=process.env.PORT
@@ -18,7 +18,7 @@ app.use(express.static("./src/uploads"))
 //seeder create the admin frist when the program is start
 import adminSeeder from "./adminSeeder"
 adminSeeder()                      //call the adminSeeder
-categoryController.seedCategory()  //call seedCategory
+//categoryController.seedCategory()  //call seedCategory
 
 //routes
 import userRoute from "./routes/userRoute"

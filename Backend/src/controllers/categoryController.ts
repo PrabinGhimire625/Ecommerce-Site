@@ -24,13 +24,23 @@ class categoryController{
     //add category
     async addCategory(req:Request,res:Response):Promise<void>{
         const {categoryName}=req.body
+        let fileName;
+        if (req.file) {
+          fileName=req.file.filename
+        } else {
+          fileName = "https://gabeclothing.ca/cdn/shop/files/DSC_0726black.webp?v=1685382189&width=1946"
+        }
+       try{
         if(!categoryName){
             res.status(404).json({message : "Please provide categoryName"})
             return
         }else{
-            await Category.create({categoryName})
+            await Category.create({categoryName,categoryImageUrl:fileName})
             res.status(200).json({message:"Category is successfully Added"})
         }
+       }catch(err){
+        res.status(500).json({ message: "Failed to add category" });
+       }
     }
 
     //get category

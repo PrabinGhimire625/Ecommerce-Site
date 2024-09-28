@@ -132,7 +132,7 @@ const Navbar = () => {
                               <svg xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" className="w-4 h-4 mr-3" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17l4-4m0 0l4 4m-4-4v12"/>
                               </svg>
-                              <Link to="/reviews">My Reviews</Link>
+                              <Link to="/orderHistory">My Reviews</Link>
                             </li>
 
                             <li className="hover:text-red-700 py-2.5 px-5 flex items-center hover:bg-gray-100 text-[#333] text-sm cursor-pointer">

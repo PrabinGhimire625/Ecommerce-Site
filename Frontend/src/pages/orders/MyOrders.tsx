@@ -26,16 +26,18 @@ const MyOrders = () => {
   .filter((order) => date === "" || new Date(order.createdAt).toLocaleDateString() === new Date(date).toLocaleDateString());  //search through the date
 
   return (
-    <div className="antialiased font-sans bg-gray-200 pt-2">
+    <div className="antialiased font-sans bg-white pt-2">
       <div className="container mx-auto px-4 sm:px-8">
         <div>
+          
           <div>
             <h2 className="text-2xl font-semibold leading-tight">My Orders</h2>
           </div>
-          <div className="my-2 flex sm:flex-row flex-col">
+
+          {/* <div className="my-2 flex sm:flex-row flex-col">
             <div className="flex flex-row mb-1 sm:mb-0">
               <div className="relative">
-                {/* search through the orderStatus */}
+                
                 <select onChange={(e)=>setSelectedItem(e.target.value as OrderStatus)}
                   className="appearance-none h-full rounded-r border-t sm:rounded-r-none sm:border-r-0 border-r border-b block appearance-none w-full bg-white border-gray-400 text-gray-700 py-2 px-4 pr-8 leading-tight focus:outline-none focus:border-l focus:border-r focus:bg-white focus:border-gray-500">
                   <option value={OrderStatus.All}>all</option>
@@ -62,17 +64,19 @@ const MyOrders = () => {
               </span>
 
             
-            {/* search throught search bar*/}
+            
               <input value={searchTerm} onChange={(e)=>setSearchTerm(e.target.value)} placeholder="Search" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
             </div>
 
 
-            {/* search throught the date */}
+    
             <div className="block relative">
               <input value={date} onChange={(e)=>setDate(e.target.value)} placeholder="Search"  type="date" className="appearance-none rounded-r rounded-l sm:rounded-l-none border border-gray-400 border-b block pl-8 pr-6 py-2 w-full bg-white text-sm placeholder-gray-400 text-gray-700 focus:bg-white focus:placeholder-gray-600 focus:text-gray-700 focus:outline-none" />
             </div>
 
-          </div>
+          </div> */}
+
+
           <div className="-mx-4 sm:-mx-8 px-4 sm:px-8 py-4 overflow-x-auto">
             <div className="inline-block min-w-full shadow rounded-lg overflow-hidden">
               <table className="min-w-full leading-normal">
@@ -98,6 +102,10 @@ const MyOrders = () => {
                       className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
                       Ordered At
                     </th>
+                    <th
+                      className="px-5 py-3 border-b-2 border-gray-200 bg-gray-100 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                      
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -107,7 +115,7 @@ const MyOrders = () => {
                 {
   filterOrders.length > 0 && filterOrders.map((order) => {
     return (
-      <tr key={order.id}>
+      <tr key={order?.id}>
     
      <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
      <Link to={`/myOrders/${order.id}`}>
@@ -129,6 +137,9 @@ const MyOrders = () => {
         </td>
         <td className="px-5 py-5 border-b border-gray-200 bg-white text-sm">
           <p className="text-gray-900 whitespace-no-wrap">{new Date(order.createdAt).toLocaleDateString()}</p> 
+        </td>
+        <td className="px-5 py-5 border-b border-gray-200 bg-white text-md">
+          <Link to="/orderDetails" className="text-blue-800 text-lg whitespace-no-wrap ">MANAGE</Link> 
         </td>
       </tr>
     );

@@ -41,7 +41,7 @@ const Profile = () => {
                 </div>
 
             
-                <section className="w-4/5 pt-5 bg-white">
+                <section className="w-4/5 pt-5 bg-gray-100">
                 <div className="col-span-4 sm:col-span-9">
             <div className="bg-white shadow rounded-lg p-6">
               <div className="bg-white shadow overflow-hidden sm:rounded-lg">

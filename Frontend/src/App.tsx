@@ -19,6 +19,7 @@ import OrderHistory from "./pages/orders/OrderHistory"
 import EditProfile from "./pages/auth/profile/editProfile/EditProfile"
 import ProfileSidebar from "./pages/auth/profile/ProfileSidebar"
 import ManageMyAccount from "./pages/auth/profile/ManageMyAccount"
+import AddressBook from "./pages/auth/profile/AddressBook"
 
 
 
@@ -44,6 +45,7 @@ function App() {
           <Route path='/category' element={<Category/>}/>
           <Route path='/orderHistory' element={<OrderHistory/>}/>
           <Route path='/manageMyAccount' element={<ManageMyAccount/>}/>
+          <Route path='/addressBook' element={<AddressBook/>}/>
           <Route path='/orderDetails' element={<OrderDetails/>}/>
           <Route path='/myOrders/:id' element={<OrderDetails/>}/>
         </Routes>

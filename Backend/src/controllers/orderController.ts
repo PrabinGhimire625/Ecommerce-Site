@@ -108,7 +108,13 @@ async fetchAllOrders(req:AuthRequest, res:Response):Promise<void>{
 //customer side start
 async fetchMyOrder(req:AuthRequest, res:Response):Promise<void>{
     const userId=req.user?.id
-    const orders=await Order.findAll({where:{userId}, include:[{model:Payment}]})
+    const orders=await Order.findAll({where:{userId}, include:[
+        {model:Payment},
+        {
+            model: User,
+            attributes: ['username', 'email']
+        }
+    ]})
     if(orders.length>0){
         res.status(200).json({message:"My Order is successfully fetched",data:orders})
     }else{

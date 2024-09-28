@@ -15,6 +15,9 @@ class Category extends Model{
 
     @Column({type:DataType.STRING,allowNull:false})
     declare categoryName:string
+
+    @Column({ type: DataType.TEXT })
+    declare categoryImageUrl: string;
 }//model banauna betikai aphai table banxa
 
 export default Category

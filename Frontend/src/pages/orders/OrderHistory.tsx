@@ -149,31 +149,20 @@ const OrderHistory = () => {
                                             </div>
                                             <div className="flex flex-col justify-center items-start max-sm:items-center">
                                             <Link to={`/review/${orders?.Product?.id}`} className="bg-orange-700 text-white text-left px-4 py-2 rounded w-full">Reviews</Link>
-
                                             </div>
                                         </div>
                                     </div>
-
-            
                                 </>
                             ))
                         ) : (
                             <p>No order details available.</p>
                         )}
-
-
-                
                 
 <svg className="mt-9 w-full" xmlns="http://www.w3.org/2000/svg" width="1216" height="2" viewBox="0 0 1216 2"
                                         fill="none">
                                         <path d="M0 1H1216" stroke="#D1D5DB" />
                                     </svg>
-
                                     
-
-
-
-
                 <div className="px-3 md:px-11 flex items-center justify-between max-sm:flex-col-reverse">
                     <div className="flex max-sm:flex-col-reverse items-center">
                         <button

@@ -14,3 +14,17 @@
     animation: marquee 10s linear infinite;
 }
   
+@keyframes slideLeftRight {
+  0% {
+    transform: translateX(-100%); /* Start from off-screen to the left */
+    opacity: 1;
+  }
+  100% {
+    transform: translateX(100%); /* End off-screen to the right */
+    opacity: 1;
+  }
+}
+
+.animate-slide-left-right {
+  animation: slideLeftRight 20s linear infinite;
+}

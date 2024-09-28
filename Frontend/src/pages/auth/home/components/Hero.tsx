@@ -1,59 +1,56 @@
 import { useEffect, useState } from "react";
-import BannerBackground from "../../../.././assets/home-banner-background.png";
-import slideshowimage2 from "../../../.././assets/slideshowimage2.png";
-import BannerImage from "../../../.././assets/home-banner-image.png";
-import { FiArrowRight } from "react-icons/fi";
 import "../../../../App.css";
 
 const Hero = () => {
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const images = [slideshowimage2, BannerImage];
+    const images = [
+        "https://blog.daraz.com.np/wp-content/uploads/2024/02/1200x450_2.png", 
+        "https://blog.daraz.com.np/wp-content/uploads/2023/07/What-is-Daraz-MBB1200x450.jpg",
+        "https://blog.daraz.com.bd/wp-content/uploads/2023/09/daraz-ebl-co-brand-card.jpg"
+    ];
 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentImageIndex((prevIndex) => (prevIndex + 1) % images.length);
         }, 3000); // Change images every 3 seconds
         return () => clearInterval(interval); // Clean up interval on component unmount
-    }, []);
+    }, [images.length]);
 
     return (
-        <div className="relative bg-gray-100">
-            {/* Background image */}
-            <div className="absolute inset-0">
-                <img src={BannerBackground} alt="Banner background" className="w-full h-full object-cover" />
+      <>
+        <div className="animate-slide-left-right ">
+          <h1 className="text-4xl font-bold text-red-700 text-center my-1">Free delivery all over Nepal</h1>
+        </div>
+
+        <div className="flex justify-center bg-gray-100 ">
+            {/* Main slideshow background container */}
+            <div
+                className="main w-[1100px] h-[450px] bg-cover bg-no-repeat"
+                style={{ backgroundImage: `url(${images[currentImageIndex]})` }}
+            >
+                {/* Optional content inside the slideshow container */}
+                <div className="flex justify-center items-center h-full">
+                    <h1 className="text-white text-4xl font-bold">Welcome to Our HD Image Background</h1>
+                </div>
             </div>
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col items-center text-center p-6">
-                <div className="mb-8">
-                    <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-                        Your Favourite Food Delivered Hot & Fresh
+            {/* Second section with call-to-action */}
+            <div className="bg-gradient-to-b from-gray-100  to-gray-300 flex flex-col max-w-md h-[450px] p-6 rounded-xl shadow-2xl">
+                <h1 className="text-2xl font-extrabold text-center text-indigo-700">Download the App</h1>
+               
+                <div 
+                    className="main w-60 h-60 bg-cover bg-center rounded-lg shadow-lg mt-6"
+                    style={{ backgroundImage: 'url("https://pbs.twimg.com/media/FjVrMAXVsAECWsb.jpg")' }}
+                ></div>
+
+                <div className="flex flex-col items-center space-y-3 mt-6">
+                    <h1 className="my-4 text-lg font-bold text-center bg-gradient-to-r from-purple-500 to-indigo-500 text-white py-2 px-4 rounded-full shadow-md hover:scale-105 transform transition-transform">
+                        App Store
                     </h1>
-                    <p className="text-lg md:text-xl text-white mb-6">
-                        Healthy switcher chefs do all the prep work, like peeling, chopping & marinating, so you can cook fresh food.
-                    </p>
-                    <button className="bg-yellow-500 text-black font-semibold py-2 px-4 rounded flex items-center hover:bg-yellow-400">
-                        Order Now <FiArrowRight />
-                    </button>
                 </div>
-
-                {/* Slideshow image */}
-                <div className="relative">
-                    <img
-                        src={images[currentImageIndex]}
-                        alt="Slideshow"
-                        className="w-96 md:w-112 mx-auto"
-                    />
-                </div>
-            </div>
-
-            {/* Marquee text */}
-            <div className="relative p-4 mt-6">
-                <h1 className="text-2xl md:text-3xl font-bold text-gray-800 text-center animate-marquee">
-                    Free Delivery All Over Nepal: Contact Us at 9822924656
-                </h1>
             </div>
         </div>
+        </>
     );
 };
 

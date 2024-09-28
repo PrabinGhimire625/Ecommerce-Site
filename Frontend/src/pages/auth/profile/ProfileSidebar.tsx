@@ -21,12 +21,10 @@ const ProfileSidebar = () => {
           </Link>
           <div className="flex flex-col ml-8  text-lg text-gray-700">
             <Link to="/profile">Profile</Link>
-            <p>Address Book</p>
+            <Link to="/addressBook">Address Book</Link>
             <p>My Payment Option</p>
           </div>
         </li>
-
-     
 
         {/* my orders */}
         <li className="relative">
@@ -42,7 +40,7 @@ const ProfileSidebar = () => {
 
          {/* my Reviews */}
          <li className="relative">
-          <Link to="#" className="block bg-transparent text-lg font-bold hover:bg-transparent text-black hover:text-blue-600 pt-3 px-4 rounded-lg">
+          <Link to="/orderHistory" className="block bg-transparent text-lg font-bold hover:bg-transparent text-black hover:text-blue-600 pt-3 px-4 rounded-lg">
             My Reviews
           </Link>
         </li>
@@ -54,13 +52,6 @@ const ProfileSidebar = () => {
           </a>
         </li>
 
-        
-
-
-
-        
-
-        
         {/* Add other list items as needed */}
       </ul>
     </div>

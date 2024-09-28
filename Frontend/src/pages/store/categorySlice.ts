@@ -5,7 +5,8 @@ import { API } from "../../http";
 
 export interface Category{
     id:string,
-    categoryName:string
+    categoryName:string,
+    categoryImageUrl:string,
 }
 
 
